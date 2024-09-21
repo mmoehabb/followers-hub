@@ -4,19 +4,19 @@ An application for streamers and content creators that they can use to make thei
     - User Register and Login
     - User Engagement (likes and comments)
     - User bookmark list
-    - Email subscription (get an email for any new publication)
 
-Streamers can signup with their twitch account, and the application shall create automatically a twitch channel with all twitch streams section.
+Streamers can signup with their twitch account, and the application shall create automatically a twitch channel with streams section where streams get automatically pushed in.
 
-Streamers can create different channels in their page and each channel can contain different sections. For example the auto-generated twitch channel contains only "streams" section, however custom sections like: "clips", "league of legends", "just chatting", etc, can be added manually.
+Streamers can create different channels in their page, each of which can contain different sections. For example the auto-generated twitch channel contains only "streams" section, however custom sections like: "clips", "league of legends", "just chatting", etc, can be added manually.
 
-Streamers may add custom channels manually as well like "Youtube", however they will fill it with content themselves. Also streamers may change the theme of the page, for each channel; like with the user clicks on the twitch channel the colors change to purple, and when switch to Youtube the colors change to red.
+Streamers may add custom channels manually as well like "Youtube", however they will fill it with content themselves. Also they may change the theme of the page, for each channel; when users click on the twitch channel the colors, of the page, change to purple, and when Youtube is clicked the colors change to red.
 
 Sections are simply grid of publications (videos) that when clicked, a popup of the publication appears in which users can watch the (embedded) video, react to, and/or comment on it.
 
 ![Wireframe](./wireframe.svg)
 
 > Figma Prototype: [https://www.figma.com/design/...](https://www.figma.com/design/YbLZSnut1PZnFhx9y0t0z8/FollowUp?node-id=0-1&t=mEin5TBGmdwTm7Ny-1)
+
 
 ## Used Technologies
 
@@ -26,6 +26,7 @@ Sections are simply grid of publications (videos) that when clicked, a popup of 
 - [HTMX](https://htmx.org/)
 - [Fiber](https://docs.gofiber.io/)
 - [Postgres](https://github.com/jackc/pgx)
+
 
 ## Usage
 
@@ -65,6 +66,7 @@ For this sake `.air.toml` file (as you may have noticed) is in the root director
 ```shell
 $ templ generate --watch --cmd "air"
 ```
+
 
 ### ./cmd (Only Linux)
 
