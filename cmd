@@ -22,7 +22,7 @@ elif [ $1 == run ]; then
 elif [ $1 == dev ]; then
   templ generate --watch --cmd "air"
 elif [ $1 == build ]; then
-  go build
+  go build -o out/app
 else
   invalidUsage
 fi

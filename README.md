@@ -14,6 +14,8 @@ Streamers may add custom channels manually as well like "Youtube", however they 
 
 Sections are simply grid of publications (videos) that when clicked, a popup of the publication appears in which users can watch the (embedded) video, react to, and/or comment on it.
 
+![Wireframe](./wireframe.svg)
+
 > Figma Prototype: [https://www.figma.com/design/...](https://www.figma.com/design/YbLZSnut1PZnFhx9y0t0z8/FollowUp?node-id=0-1&t=mEin5TBGmdwTm7Ny-1)
 
 ## Used Technologies
