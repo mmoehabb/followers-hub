@@ -6,8 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"goweb/db"
-	"goweb/handlers/user"
 	"goweb/pages"
+	"goweb/ui/components"
 )
 
 func main() {
@@ -33,8 +33,26 @@ func main() {
     return c.SendStatus(200)
   })
 
-  app.Post("/login", user.Login)
-  app.Post("/register", user.Register)
+  app.Get("/login", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    pages.Login().Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+
+  app.Get("/component/video", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    if c.Query("url") == "" {
+      return c.SendStatus(fiber.ErrBadRequest.Code)
+    }
+    components.VideoOverlay(c.Query("url")).Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+
+  app.Get("/component/chat", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    components.ChatDrawer().Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
 
   app.Listen(":3000")
 }

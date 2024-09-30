@@ -1,49 +1,85 @@
 package pages
 
-import "goweb/ui/layouts"
-import "goweb/ui/forms"
-
-var headHandle = templ.NewOnceHandle()
+import (
+  "goweb/ui/layouts"
+  "goweb/ui/components"
+)
 
 templ Index() {
+  <!DOCTYPE html>
   <html theme="light">
-    @headHandle.Once() {
+    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      <title>GoWeb Template</title>
+      <title>Follow Up</title>
       <meta name="description" content="A template for developing web apps with golang.">
       <meta name="keywords" content="go, web, templ, htmx, tailwind, fiber">
       <meta name="author" content="M. E. Abdelsalam">
 
       <link href="public/globals.css" rel="stylesheet" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
       <script src="public/tailwind.js"></script>
       <script src="public/util.js"></script>
       <script src="https://unpkg.com/htmx.org@2.0.2"></script>
       <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
-      <script src="public/game.js"></script>
-    }
-    <body class="flex flex-col bg-background color-text min-h-screen h-auto overflow-auto">
+    </head>
+    <body class="flex flex-col bg-background color-text overflow-auto">
       
       @layouts.Header()
 
-      <main class="relative flex-1 flex flex-wrap justify-center items-center p-8 lg:px-24 bg-background color-text">
-        <div id="gamediv" class="flex-1 flex flex-col items-center text-2xl p-4 text-center">
-          <label id="gamelabel">A game should appear here once you successfully login.</label>
-          <canvas id="gameframe" class="w-96 h-96 my-4 rounded"></canvas>
-        </div>
-        <div class="flex flex-col p-4 shadow-xl bg-background border-2 border-primary rounded-xl">
-          <label class="text-xl color-text">Let's try creating a functional form 😃</label>
-          @forms.Login(make(map[string]string))
-          @forms.Register(make(map[string]string))
-        </div>
-        <img 
-          src="public/PNGs/go.png" 
-          class="absolute z-20 h-52 bottom-[-200px]" 
-          style="animation: example 30s linear 5s infinite forwards"
-        />
+      <main class="flex-1 flex flex-wrap h-max-screen lg:p-12 lg:px-24 bg-background color-text">
+        <nav class="flex flex-col w-full lg:w-80 h-auto lg:h-full m-12 lg:m-0">
+          <img src="/public/images/user.jpg" class="absolute w-40 h-40 translate-x-[-20%] translate-y-[-10%] rounded-full shadow" />
+          <section class="flex flex-col pt-12 w-full lg:w-80 h-auto lg:h-full bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
+            // Streamer info part
+            <div class="flex flex-col items-end color-text mb-12">
+              <div class="flex flex-col w-1/2">
+                <label class="text-3xl mb-2 font-jersey">Ross Geller</label>
+                <a href="/" class="color-text">
+                  @components.SVG("./public/icons/twitch.svg")
+                </a>
+              </div>
+            </div>
+            // Channels part
+            <div class="flex-1 flex flex-col font-jersey">
+              <a class="w-full py-2 my-1 text-3xl text-center bg-text color-secondary" href="#">Twitch</a>
+              <a class="w-full py-2 my-1 text-3xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Youtube</a>
+              <a class="w-full py-2 my-1 text-3xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Facebook</a>
+            </div>
+          </section>
+          <section class="flex justify-center items-center mt-8">
+            @components.TextInput("you@example.com", "email", "", "", templ.Attributes{})
+            <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
+          </section>
+        </nav>
+
+        <section class="flex-1 flex flex-col items-center lg:px-8">
+          <div class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey">
+            <button class="p-4 color-accent">Streams</button>
+            <button class="p-4 color-text hover-color-secondary">Chatting</button>
+            <button class="p-4 color-text hover-color-secondary">Horror</button>
+          </div>
+          <div class="flex flex-wrap justify-center w-full h-full p-4 overflow-auto">
+            @components.VideoCard(
+              "Some long title for the embedded video",
+              "https://www.youtube.com/embed/ssa6Y850b7o",
+            )
+            @components.VideoCard(
+              "Some long title for the embedded video",
+              "https://www.youtube.com/embed/hWruEaP4ysI",
+            )
+          </div>
+        </section>
       </main>
       
+      <section id="video-overlay" class="fixed flex justify-center items-center w-auto left-0 bottom-0 z-[10]">
+      </section>
+
+      <section id="chat-drawer" class="hidden">
+      </section>
+
       @layouts.Footer()
 
     </body>

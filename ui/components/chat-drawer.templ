@@ -1,0 +1,23 @@
+package components
+
+templ ChatDrawer() {
+  <section id="chat-drawer" class="fixed flex flex-col justify-end h-1/2 w-full bottom-0 lg:h-screen lg:w-1/4 lg:right-0 font-jersey bg-pattern-v2 shadow animate__animated animate__slideInRight">
+    <script>
+      document.getElementsByTagName("main")[0].onclick = () => {
+        let drawer = document.getElementById("chat-drawer")
+        drawer.style.right = -drawer.clientWidth + "px"
+      }
+    </script>
+    <div id="msgs-container" class="flex flex-col-reverse overflow-auto">
+      <div class="bg-text p-4 m-4 rounded-lg">
+        <label class="color-primary">User Nickname</label>
+        <p class="text-justify color-secondary">Just a long message for testing or previewing so to speak the ui. I hope it's good. I don't know what to say. I think this's enough.</p>
+      </div>
+      <div class="bg-text p-4 m-4 rounded-lg">
+        <label class="color-primary">User Nickname</label>
+        <p class="text-justify color-secondary">Just another not long message!</p>
+      </div>
+    </div>
+    @TextInput("Write your message...", "text", "", "", templ.Attributes{ "style": "border-radius: 0;" })
+  </section>
+}

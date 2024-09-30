@@ -1,0 +1,18 @@
+package components
+
+import (
+  "fmt"
+  "os"
+)
+
+func readFileString(path string) string {
+  buf, err := os.ReadFile(path)
+  if err != nil {
+    fmt.Fprintln(os.Stderr, err)
+  }
+  return string(buf)
+}
+
+templ SVG(path string) {
+  @templ.Raw(readFileString(path))
+}

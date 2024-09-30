@@ -1,11 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Matemasie&family=Playwrite+BE+VLG:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jolly+Lodger&family=Julee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
 
 /** 
  * Info: realtimecolors.com came in handy in generating these.
 **/
 
-* {
+button, a, div, main {
   transition: 250ms;  
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
 }
 
 /** colors **/
@@ -16,11 +23,11 @@ html {
   --dark-display: none;
   --dark-opacity: 0;
 
-  --color-primary: #6e7d92;
-  --color-secondary: #b2bbc9;
-  --color-accent: #8a9ab2;
-  --color-background: #f8f8f9;
-  --color-text: #272728;
+  --color-primary: #2E073F;
+  --color-secondary: #7A1CAC;
+  --color-accent: #AD49E1;
+  --color-background: #2E073F;
+  --color-text: #EBD3F8;
   --color-success: #2ed573;
   --color-error: #ff4757;
 }
@@ -32,45 +39,92 @@ html[theme="dark"] {
   --dark-display: flex;
   --dark-opacity: 1;
   
-  --color-primary: #6e7d91;
-  --color-secondary: #36404e;
-  --color-accent: #4d5d75;
-  --color-background: #070708;
-  --color-text: #f7f7f8;
-  --color-success: #05c46b;
-  --color-error: #b33939;
+  --color-primary: #2E073F;
+  --color-secondary: #7A1CAC;
+  --color-accent: #AD49E1;
+  --color-background: #2E073F;
+  --color-text: #EBD3F8;
+  --color-success: #2ed573;
+  --color-error: #ff4757;
 }
 
-.bg-primary { background-color: var(--color-primary) }
-.bg-secondary { background-color: var(--color-secondary) }
-.bg-accent { background-color: var(--color-accent) }
-.bg-background { background-color: var(--color-background) }
-.bg-text { background-color: var(--color-text) }
-.bg-success { background-color: var(--color-success) }
-.bg-error { background-color: var(--color-error) }
+.bg-primary { background-color: var(--color-primary); fill: var(--color-primary) }
+.bg-secondary { background-color: var(--color-secondary); fill: var(--color-secondary) }
+.bg-accent { background-color: var(--color-accent); fill: var(--color-accent) }
+.bg-background { background-color: var(--color-background); fill: var(--color-background) }
+.bg-text { background-color: var(--color-text); fill: var(--color-text) }
+.bg-success { background-color: var(--color-success); fill: var(--color-success) }
+.bg-error { background-color: var(--color-error); fill: var(--color-error) }
 
-.color-primary { color: var(--color-primary) }
-.color-secondary { color: var(--color-secondary) }
-.color-accent { color: var(--color-accent) }
-.color-background { color: var(--color-background) }
-.color-text { color: var(--color-text) }
-.color-success { color: var(--color-success) }
-.color-error { color: var(--color-error) }
+.bg-pattern {
+  width: 100%;
+  height: 100%;
+  /* Add your background pattern here */
+  background-color: var(--color-primary);
+  background-image: radial-gradient(var(--color-secondary) 2px, transparent 0);
+  background-size: 30px 30px;
+  background-position: 50vw 50vh;
+  transition-duration: 1s;
+}
 
-.border-primary { color: var(--color-primary) }
-.border-secondary { color: var(--color-secondary) }
-.border-accent { color: var(--color-accent) }
-.border-background { color: var(--color-background) }
-.border-text { color: var(--color-text) }
-.border-success { color: var(--color-success) }
-.border-error { color: var(--color-error) }
+.bg-pattern-v2 {
+  width: 100%;
+  height: 100%;
+  /* Add your background pattern here */
+  background-color: var(--color-secondary);
+  background-image: radial-gradient(var(--color-primary) 2px, transparent 0);
+  background-size: 30px 30px;
+  background-position: 50vw 50vh;
+  transition-duration: 1s;
+}
+
+.color-primary { color: var(--color-primary); stroke: var(--color-primary) }
+.color-secondary { color: var(--color-secondary); stroke: var(--color-secondary) }
+.color-accent { color: var(--color-accent); stroke: var(--color-accent) }
+.color-background { color: var(--color-background); stroke: var(--color-background) }
+.color-text { color: var(--color-text); stroke: var(--color-text) }
+.color-success { color: var(--color-success); stroke: var(--color-success) }
+.color-error { color: var(--color-error); stroke: var(--color-error) }
+
+.border-primary { border-color: var(--color-primary) }
+.border-secondary { border-color: var(--color-secondary) }
+.border-accent { border-color: var(--color-accent) }
+.border-background { border-color: var(--color-background) }
+.border-text { border-color: var(--color-text) }
+.border-success { border-color: var(--color-success) }
+.border-error { border-color: var(--color-error) }
 
 .light-view { display: var(--light-display); }
 .dark-view { display: var(--dark-display); }
 
+/** hovers **/
+.hover-bg-primary:hover { background-color: var(--color-primary); fill: var(--color-primary) }
+.hover-bg-secondary:hover { background-color: var(--color-secondary); fill: var(--color-secondary) }
+.hover-bg-accent:hover { background-color: var(--color-accent); fill: var(--color-accent) }
+.hover-bg-background:hover { background-color: var(--color-background); fill: var(--color-background) }
+.hover-bg-text:hover { background-color: var(--color-text); fill: var(--color-text) }
+.hover-bg-success:hover { background-color: var(--color-success); fill: var(--color-success) }
+.hover-bg-error:hover { background-color: var(--color-error); fill: var(--color-error) }
+
+.hover-color-primary:hover { color: var(--color-primary); stroke: var(--color-primary) }
+.hover-color-secondary:hover { color: var(--color-secondary); stroke: var(--color-secondary) }
+.hover-color-accent:hover { color: var(--color-accent); stroke: var(--color-accent) }
+.hover-color-background:hover { color: var(--color-background); stroke: var(--color-background) }
+.hover-color-text:hover { color: var(--color-text); stroke: var(--color-text) }
+.hover-color-success:hover { color: var(--color-success); stroke: var(--color-success) }
+.hover-color-error:hover { color: var(--color-error); stroke: var(--color-error) }
+
+.hover-border-primary:hover { border-color: var(--color-primary) }
+.hover-border-secondary:hover { border-color: var(--color-secondary) }
+.hover-border-accent:hover { border-color: var(--color-accent) }
+.hover-border-background:hover { border-color: var(--color-background) }
+.hover-border-text:hover { border-color: var(--color-text) }
+.hover-border-success:hover { border-color: var(--color-success) }
+.hover-border-error:hover { border-color: var(--color-error) }
+
 /** typography **/
 body {
-  font-family: "K2D", sans-serif;
+  font-family: sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -82,6 +136,23 @@ h3 {font-size: 2.369rem; /* 37.92px */}
 h4 {font-size: 1.777rem; /* 28.48px */}
 h5 {font-size: 1.333rem; /* 21.28px */}
 small {font-size: 0.750rem; /* 12px */}
+
+/** fonts **/
+.font-jolly { 
+  font-family: "Jolly Lodger", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+.font-julee {
+  font-family: "Julee", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.font-jersey { 
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
 /** animations **/
 

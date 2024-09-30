@@ -1,0 +1,39 @@
+package components
+
+templ VideoOverlay(url string) {
+  <div class="relative m-4 w-full h-[28vh] md:w-[50vw] md:h-[50vh] shadow">
+    <script>
+      if (window.overlay === undefined) {
+        window.video_overlay = document.getElementById("video-overlay")
+      }
+      function minimize(e) {
+        unblur()
+        window.video_overlay.style.width = window.innerWidth <= 480 ? "100%" : "30%"
+        window.video_overlay.style.height = ""
+        e.parentElement.style.height = "25vh"
+        e.onclick = () => maximize(e)
+        dragElement(e.parentElement.parentElement)
+        document.getElementById("video-overlay-header").style.height = "10px"
+      }
+      function maximize(e) {
+        blur()
+        window.video_overlay.style.width = "100vw"
+        window.video_overlay.style.height = "100vh"
+        window.video_overlay.style.left = "0px"
+        window.video_overlay.style.bottom = "0px"
+        window.video_overlay.style.top = ""
+        if (e) {
+          e.parentElement.style.height = ""
+          e.onclick = () => minimize(e)
+        }
+        document.getElementById("video-overlay-header").style.height = "0px"
+      }
+      maximize()
+      blur()
+    </script>
+    <button class="absolute right-2 top-2 p-2 hover-bg-primary rounded" onclick="minimize(this); this.parentElement.remove()">@SVG("./public/icons/close.svg")</button>
+    <button class="absolute left-2 bottom-2 p-2 hover-bg-primary rounded" onclick="minimize(this)">@SVG("./public/icons/shrink.svg")</button>
+    <div id="video-overlay-header" class="absolute w-full h-0 top-[-10px] bg-accent cursor-grab"></div>
+    <iframe src={url} class="w-full h-full bg-primary" allowfullscreen></iframe>
+  </div>
+}
