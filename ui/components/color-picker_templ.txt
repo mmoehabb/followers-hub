@@ -1,3 +1,0 @@
-<div class=\"
-\"><input name=\"primary-color\" type=\"color\" value=\"
-\" class=\"w-full h-full opacity-0\" onchange=\"this.parentElement.style.backgroundColor = this.value\"></div>

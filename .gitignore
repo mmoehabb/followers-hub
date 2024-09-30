@@ -28,3 +28,4 @@ go.work.sum
 # templ / air
 tmp
 *_templ.go
+*_templ.txt

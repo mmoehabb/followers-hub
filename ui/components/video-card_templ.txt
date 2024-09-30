@@ -1,7 +1,0 @@
-<div class=\"flex flex-col justify-center w-full lg:w-[28%] h-80 lg:h-96 m-4 font-jersey bg-secondary rounded-lg shadow overflow-hidden\"><iframe src=\"
-\" class=\"flex-1\"></iframe><div class=\"p-4\"><h1 class=\"text-xl lg:text-3xl truncate\">
-</h1><div class=\"flex mt-4\"><button class=\"flex justify-center items-center text-xl mr-4 px-2 py-1 bg-accent hover-bg-text color-text hover-color-accent rounded-lg\" hx-get=\"
-\" hx-swap=\"innerHTML\" hx-target=\"#video-overlay\">Open</button> <button class=\"flex justify-center items-center text-xl mr-4 px-2 py-1 bg-accent hover-bg-text color-text hover-color-accent rounded-lg\"><i class=\"mr-2\">
-</i> 5</button> <button class=\"flex justify-center items-center text-xl mr-4 px-2 py-1 bg-accent hover-bg-text color-text hover-color-accent rounded-lg\" hx-get=\"
-\" hx-swap=\"outerHTML\" hx-target=\"#chat-drawer\"><i class=\"mr-2\">
-</i> 10</button></div></div></div>
