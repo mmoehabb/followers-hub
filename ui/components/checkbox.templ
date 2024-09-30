@@ -1,0 +1,15 @@
+package components
+
+templ CheckBox(label string, desc string, attrs templ.Attributes) {
+  <div>
+    <input
+      type="checkbox"
+      name={ label }
+      { attrs... }
+    />
+    <label for={label} class="color-primary">{label}</label>
+    if desc != "" { 
+      <label class="p-1 block color-secondary text-sm ml-4">{ desc }</label> 
+    }
+  </div>
+}

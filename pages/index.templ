@@ -3,6 +3,7 @@ package pages
 import (
   "goweb/ui/layouts"
   "goweb/ui/components"
+  "goweb/ui/forms"
 )
 
 templ Index() {
@@ -12,7 +13,7 @@ templ Index() {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      <title>Follow Up</title>
+      <title>Followers Hub</title>
       <meta name="description" content="A template for developing web apps with golang.">
       <meta name="keywords" content="go, web, templ, htmx, tailwind, fiber">
       <meta name="author" content="M. E. Abdelsalam">
@@ -50,7 +51,7 @@ templ Index() {
             </div>
           </section>
           <section class="flex justify-center items-center mt-8">
-            @components.TextInput("you@example.com", "email", "", "", templ.Attributes{})
+            @components.TextInput("email", "you@example.com", "email", "", "", templ.Attributes{})
             <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
           </section>
         </nav>
@@ -78,6 +79,10 @@ templ Index() {
       </section>
 
       <section id="chat-drawer" class="hidden">
+      </section>
+
+      <section id="forms-overlay" class="fixed flex flex-col right-4 bottom-4">
+        @forms.LoginForm()
       </section>
 
       @layouts.Footer()

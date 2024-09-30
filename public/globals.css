@@ -6,7 +6,7 @@
  * Info: realtimecolors.com came in handy in generating these.
 **/
 
-button, a, div, main {
+button, a, div, main, form {
   transition: 250ms;  
 }
 

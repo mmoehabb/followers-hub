@@ -1,0 +1,35 @@
+package forms
+
+import "goweb/ui/components"
+
+templ LoginForm() {
+  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight">
+    <script>
+      blur()
+      document.getElementsByTagName("main")[0].onclick = () => {
+        let section = document.getElementById("forms-overlay")
+        let form = section.firstChild
+        form.classList.add("animate__slideOutRight")
+        form.style.opacity = "0"
+        unblur()
+        setTimeout(() => form.remove(), 1250)
+      }
+    </script>
+    <div class="my-2">
+      <label class="mb-1 color-primary">Channel Name</label>
+      @components.TextInput(
+        "Email", "you@example.com",
+        "email", "", "", 
+        templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      )
+    </div>
+    <div class="my-2">
+      @components.CheckBox(
+        "Subscribe", 
+        "Receive e-mails when Doggy publish any new content.",
+        templ.Attributes{},
+      )
+    </div>
+    <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Join the Club</button>
+  </form>
+}

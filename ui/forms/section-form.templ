@@ -1,0 +1,28 @@
+package forms
+
+import "goweb/ui/components"
+
+templ SectionForm() {
+  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight">
+    <script>
+      blur()
+      document.getElementsByTagName("main")[0].onclick = () => {
+        let section = document.getElementById("forms-overlay")
+        let form = section.firstChild
+        form.classList.add("animate__slideOutRight")
+        form.style.opacity = "0"
+        unblur()
+        setTimeout(() => form.remove(), 1250)
+      }
+    </script>
+    <div class="my-2">
+      <label class="mb-1 color-primary">Channel Name</label>
+      @components.TextInput(
+        "Section Name", "Video, Clips, FPS, etc.",
+        "text", "", "", 
+        templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      )
+    </div>
+    <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Add/Edit Section</button>
+  </form>
+}

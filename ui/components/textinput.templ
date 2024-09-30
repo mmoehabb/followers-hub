@@ -1,16 +1,16 @@
 package components
 
-templ TextInput(label string, itype string, desc string, err string, attrs templ.Attributes) {
+templ TextInput(name string, placeholder string, itype string, desc string, err string, attrs templ.Attributes) {
   <div>
     <input
       type={ itype }
-      name={ label }
-      placeholder={ label }
+      name={ name }
+      placeholder={ placeholder }
       class="w-full py-1.5 px-2 color-secondary bg-text rounded-md outline-none"
       { attrs... }
     />
     if desc != "" { 
-      <label class="p-1 block color-text text-md">{ desc }</label> 
+      <label class="p-1 block text-md">{ desc }</label> 
     }
     if err != "" {
       <label class="p-1 block color-error text-md">{ err }</label>

@@ -1,0 +1,13 @@
+package components
+
+templ ColorPicker(value string) {
+  <div class={"w-12 h-12 bg-[" + value + "] rounded-full shadow"}>
+    <input 
+      name="primary-color" 
+      type="color" 
+      value={value}
+      class="w-full h-full opacity-0" 
+      onchange="this.parentElement.style.backgroundColor = this.value"
+    />
+  </div>
+}

@@ -1,0 +1,3 @@
+<form class=\"flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight\"><script>\n      blur()\n      document.getElementsByTagName(\"main\")[0].onclick = () => {\n        let section = document.getElementById(\"forms-overlay\")\n        let form = section.firstChild\n        form.classList.add(\"animate__slideOutRight\")\n        form.style.opacity = \"0\"\n        unblur()\n        setTimeout(() => form.remove(), 1250)\n      }\n    </script><div class=\"my-2\"><label class=\"mb-1 color-primary\">Channel Name</label>
+</div><div class=\"my-2\"><label class=\"mb-1 color-primary\">Channel Name</label>
+</div><button type=\"submit\" class=\"my-2 py-1 bg-primary color-text rounded\">Add Video</button></form>
