@@ -65,7 +65,7 @@ func Queries(queries []string) error {
 // execute single query and return the result
 func Query(query string, args ...any) ([]any, error) {
   defer Disconnect()
-  return SeqQuery(query, args)
+  return SeqQuery(query, args...)
 }
 
 // just like Query by does not close the connection
