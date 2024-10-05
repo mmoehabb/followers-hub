@@ -1,10 +1,11 @@
 package db
 
 import (
-  "fmt"
-  "os"
-  "context"
-  "github.com/jackc/pgx/v5"
+	"context"
+	"fmt"
+	"os"
+
+	"github.com/jackc/pgx/v5"
 )
 
 // this global var allows us to implement SeqQuery function
@@ -14,7 +15,7 @@ func connect() (*pgx.Conn, error) {
   // urlExample := "postgres://username:password@localhost:5432/database_name"
   var err error
   if (conn == nil) {
-    conn, err = pgx.Connect(context.Background(), "postgres://postgres:postgres@localhost:5432/postgres")
+    conn, err = pgx.Connect(context.Background(), "postgres://postgres:postgres@localhost:5432/followershub")
   }
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
@@ -47,9 +48,13 @@ func Queries(queries []string) error {
     }
   }()
   defer Disconnect()
-
   for _, query := range queries {
-    _, err := conn.Query(context.Background(), query)
+    rows, err := conn.Query(context.Background(), query)
+    if err != nil {
+      return fmt.Errorf("%q\nexecuting query: %s", err, query)
+    }
+    for rows.Next() {}
+    err = rows.Err()
     if err != nil {
       return err
     }
@@ -59,26 +64,8 @@ func Queries(queries []string) error {
 
 // execute single query and return the result
 func Query(query string, args ...any) ([]any, error) {
-  conn, err := connect()
-  if err != nil {
-    return nil, err
-  }
-  defer func() {
-    if p := recover(); p != nil {
-      fmt.Fprintf(os.Stderr, "internal error: %v", p)
-    }
-  }()
   defer Disconnect()
-
-  rows, err := conn.Query(context.Background(), query, args...)
-  if err != nil {
-    return nil, err
-  }
-  if rows.Next() {
-    return rows.Values()
-  } else {
-    return []any{}, err
-  }
+  return SeqQuery(query, args)
 }
 
 // just like Query by does not close the connection
@@ -94,22 +81,32 @@ func SeqQuery(query string, args ...any) ([]any, error) {
       fmt.Fprintf(os.Stderr, "internal error: %v", p)
     }
   }()
-
   rows, err := conn.Query(context.Background(), query, args...)
   if err != nil {
     return nil, err
   }
+  var res = []any{}
   if rows.Next() {
-    return rows.Values()
-  } else {
-    return []any{}, err
+    r, err := rows.Values()
+    if err != nil {
+      return res, err
+    }
+    res = append(res, r)
   }
+  return res, err
 }
 
 // hardcoded sql queries to seed (initialize) the database placed here
 func Seed() error {
   err := Queries([]string{ 
-    "CREATE TABLE IF NOT EXISTS users (username VARCHAR(45) PRIMARY KEY, password VARCHAR(45) NOT NULL);",
+    CREATE_TABLE_STREAMERS,
+    CREATE_TABLE_FOLLOWERS,
+    CREATE_TABLE_SUBSCRIPTIONS,
+    CREATE_TABLE_CHANNELS,
+    CREATE_TABLE_SECTIONS,
+    CREATE_TABLE_VIDEOS,
+    CREATE_TABLE_COMMENTS,
+    CREATE_TABLE_LIKES,
   })
   return err
 }

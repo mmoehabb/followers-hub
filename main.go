@@ -22,7 +22,7 @@ func main() {
   app.Get("/seed", func(c *fiber.Ctx) error {
     err := db.Seed()
     if err != nil {
-      c.Status(fiber.StatusInternalServerError).SendString("internal error.")
+      return c.Status(fiber.StatusInternalServerError).SendString("internal error: " + err.Error())
     }
     return c.SendString("Database has been seeded.")
   })
