@@ -5,7 +5,7 @@ import (
 	"goweb/db"
 )
 
-type StreamerData struct{
+type DataModel struct{
   Username string
   Email string
   DisplayName string
@@ -13,7 +13,7 @@ type StreamerData struct{
   Token string
 }
 
-func Add(d *StreamerData) error {
+func Add(d *DataModel) error {
   res, err := db.SeqQuery("SELECT * FROM streamers WHERE username=$1", d.Username)
   if len(res) != 0 {
     db.Disconnect()
@@ -29,20 +29,26 @@ func Add(d *StreamerData) error {
   return nil
 }
 
-func Get(username string) (StreamerData, error) {
-  res, err := db.Query("SELECT * FROM users WHERE username=$1", username)
+func Get(username string) (DataModel, error) {
+  res, err := db.Query("SELECT * FROM streamers WHERE username=$1", username)
   if err != nil {
-    return StreamerData{}, err
+    return DataModel{}, err
   }
   if len(res) == 0 {
-    return StreamerData{}, errors.New("couldn't find username.")
+    return DataModel{}, errors.New("couldn't find username.")
   }
-  streamer := StreamerData{ 
-    Username: res[0].(string), 
-    Email: res[1].(string),
-    DisplayName: res[2].(string),
-    ImgUrl: res[3].(string),
-    Token: res[4].(string),
+  row := res[0].([]any)
+  streamer := DataModel{ 
+    Username: row[0].(string), 
+    Email: row[1].(string),
+    DisplayName: row[2].(string),
+    ImgUrl: row[3].(string),
+    Token: row[4].(string),
   }
   return streamer, nil
+}
+
+func Remove(username string) error {
+  _, err := db.Query("DELETE FROM streamers WHERE username=$1", username)
+  return err
 }
