@@ -44,6 +44,15 @@ func Get(id int) (DataModel, error) {
   return obj, nil
 }
 
+func GetChannelsOf(username string) ([]DataModel, error) {
+  res, err := db.Query("SELECT * FROM channels WHERE streamer_username=$1", username)
+  list := make([]DataModel, len(res))
+  for i, row := range res {
+    list[i] = row.(DataModel)
+  }
+  return list, err
+}
+
 func Remove(id int) error {
   _, err := db.Query("DELETE FROM channels WHERE id=$1", id)
   return err

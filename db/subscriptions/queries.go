@@ -48,6 +48,24 @@ func Get(email string) (DataModel, error) {
   return obj, nil
 }
 
+func GetSubsOf(username string) ([]DataModel, error) {
+  res, err := db.Query("SELECT * FROM subscriptions WHERE streamer_username=$1 AND bending=FALSE", username)
+  list := make([]DataModel, len(res))
+  for i, row := range res {
+    list[i] = row.(DataModel)
+  }
+  return list, err
+}
+
+func GetBendingSubs(username string) ([]DataModel, error) {
+  res, err := db.Query("SELECT * FROM subscriptions WHERE streamer_username=$1 AND bending=TRUE", username)
+  list := make([]DataModel, len(res))
+  for i, row := range res {
+    list[i] = row.(DataModel)
+  }
+  return list, err
+}
+
 func Remove(StreamerUsername, FollowerEmail string) error {
   _, err := db.Query(
     "DELETE FROM subscriptions WHERE streamer_username=$1 AND follower_email=$2", 

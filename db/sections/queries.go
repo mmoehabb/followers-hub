@@ -44,6 +44,15 @@ func Get(id int) (DataModel, error) {
   return obj, nil
 }
 
+func GetSectionsOf(channel_id int) ([]DataModel, error) {
+  res, err := db.Query("SELECT * FROM sections WHERE channel_id=$1", channel_id)
+  list := make([]DataModel, len(res))
+  for i, row := range res {
+    list[i] = row.(DataModel)
+  }
+  return list, err
+}
+
 func Remove(id int) error {
   _, err := db.Query("DELETE FROM sections WHERE id=$1", id)
   return err
