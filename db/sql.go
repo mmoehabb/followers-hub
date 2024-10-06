@@ -3,11 +3,11 @@ package db
 const (
   CREATE_TABLE_STREAMERS = `
     CREATE TABLE IF NOT EXISTS streamers (
-      username VARCHAR(25) PRIMARY KEY,
-      email VARCHAR(128) NOT NULL,
-      display_name VARCHAR(25) NOT NULL,
+      id TEXT PRIMARY KEY,
+      display_name varchar(25),
       img_url TEXT NOT NULL,
-      token UUID NOT NULL
+      access_token UUID NOT NULL,
+      refresh_token UUID NOT NULL
     );
   `
   CREATE_TABLE_FOLLOWERS = `
@@ -19,17 +19,17 @@ const (
   `
   CREATE_TABLE_SUBSCRIPTIONS = `
     CREATE TABLE IF NOT EXISTS subscriptions (
-      streamer_username VARCHAR(25) REFERENCES streamers(username),
+      streamer_id TEXT REFERENCES streamers(id),
       follower_email VARCHAR(128) REFERENCES followers(email),
       subscribed_at TIMESTAMP NOT NULL DEFAULT Now(),
       bending BOOLEAN DEFAULT true,
-      PRIMARY KEY (streamer_username, follower_email)
+      PRIMARY KEY (streamer_id, follower_email)
     );
   `
   CREATE_TABLE_CHANNELS = `
     CREATE TABLE IF NOT EXISTS channels (
       id SERIAL PRIMARY KEY,
-      streamer VARCHAR(25) REFERENCES streamers(username),
+      streamer TEXT REFERENCES streamers(id),
       name VARCHAR(45) NOT NULL
     );
   `

@@ -6,22 +6,23 @@ import (
 )
 
 type DataModel struct{
+  Id string
   Username string
-  Email string
   DisplayName string
   ImgUrl string
-  Token string
+  AccessToken string
+  RefreshToken string
 }
 
 func Add(d *DataModel) error {
   res, err := db.SeqQuery("SELECT * FROM streamers WHERE username=$1", d.Username)
   if len(res) != 0 {
     db.Disconnect()
-    return errors.New("username already found.")
+    return errors.New("user already found.")
   }
   _, err = db.Query(
-    "INSERT INTO streamers VALUES ($1, $2, $3, $4, $5)", 
-    d.Username, d.Email, d.DisplayName, d.ImgUrl, d.Token,
+    "INSERT INTO streamers VALUES ($1, $2, $3, $4, $5, $6)", 
+    d.Id, d.Username, d.DisplayName, d.ImgUrl, d.AccessToken, d.RefreshToken,
   )
   if err != nil {
     return err

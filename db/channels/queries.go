@@ -7,19 +7,19 @@ import (
 
 type DataModel struct{
   Id int
-  StreamerUsername string
+  StreamerId string
   Name string
 }
 
 func Add(d *DataModel) error {
-  res, err := db.SeqQuery("SELECT * FROM channels WHERE streamer_username=$1 AND name=$2", d.StreamerUsername, d.Name)
+  res, err := db.SeqQuery("SELECT * FROM channels WHERE streamer_id=$1 AND name=$2", d.StreamerId, d.Name)
   if len(res) != 0 {
     db.Disconnect()
     return errors.New("channel already found.")
   }
   _, err = db.Query(
     "INSERT INTO channels VALUES ($1, $2, $3)", 
-    d.Id, d.StreamerUsername, d.Name,
+    d.Id, d.StreamerId, d.Name,
   )
   if err != nil {
     return err
@@ -38,14 +38,14 @@ func Get(id int) (DataModel, error) {
   row := res[0].([]any)
   obj := DataModel{ 
     Id: row[0].(int),
-    StreamerUsername: row[1].(string),
+    StreamerId: row[1].(string),
     Name: row[2].(string),
   }
   return obj, nil
 }
 
 func GetChannelsOf(username string) ([]DataModel, error) {
-  res, err := db.Query("SELECT * FROM channels WHERE streamer_username=$1", username)
+  res, err := db.Query("SELECT * FROM channels WHERE streamer_id=$1", username)
   list := make([]DataModel, len(res))
   for i, row := range res {
     list[i] = row.(DataModel)
