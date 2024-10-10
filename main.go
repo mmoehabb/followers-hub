@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 
 	"goweb/db"
+	"goweb/db/streamers"
+	"goweb/handlers/user"
 	"goweb/pages"
 	"goweb/ui/components"
 )
@@ -17,8 +20,8 @@ func main() {
   app := fiber.New()
   app.Static("/public", "./public/")
 
-  // shall be used once and commented afterwards,
-  // and maybe completed removed in production.
+  // seed endpoint: it shall be used once and commented afterwards,
+  // and maybe completelly removed in production.
   app.Get("/seed", func(c *fiber.Ctx) error {
     err := db.Seed()
     if err != nil {
@@ -27,15 +30,32 @@ func main() {
     return c.SendString("Database has been seeded.")
   })
 
-  app.Get("/", func(c *fiber.Ctx) error {
-    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-    pages.Index().Render(ctx, c.Response().BodyWriter())
-    return c.SendStatus(200)
-  })
-
   app.Get("/login", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
     pages.Login().Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+
+  app.Post("/auth/twitch", user.LoginWithTwitch)
+  app.Post("/auth/email", user.LoginWithEmail)
+
+  app.Use(func(c *fiber.Ctx) error {
+    if c.Cookies("streamer_id") == "" {
+      return c.Redirect("/login")
+    }
+    data, err := streamers.Get(c.Cookies("streamer_id"))
+    if err != nil {
+      return c.SendStatus(fiber.StatusInternalServerError)
+    }
+    if c.Cookies("token") != data.AccessToken {
+      return c.Redirect("/login")
+    }
+    return c.Next()
+  })
+  
+  app.Get("/", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    pages.Index().Render(ctx, c.Response().BodyWriter())
     return c.SendStatus(200)
   })
 
