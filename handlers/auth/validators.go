@@ -1,4 +1,4 @@
-package user
+package auth
 
 func ValidateTwitchAuthBody(body *TwitchAuthBody) (bool, map[string]string) {
   ok := true

@@ -2,14 +2,14 @@ package main
 
 import (
 	"context"
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 
 	"goweb/db"
 	"goweb/db/streamers"
-	"goweb/handlers/user"
-	"goweb/pages"
+
+	"goweb/handlers/auth"
+	
+  "goweb/pages"
 	"goweb/ui/components"
 )
 
@@ -36,8 +36,8 @@ func main() {
     return c.SendStatus(200)
   })
 
-  app.Post("/auth/twitch", user.LoginWithTwitch)
-  app.Post("/auth/email", user.LoginWithEmail)
+  app.Post("/auth/twitch", auth.LoginWithTwitch)
+  app.Post("/auth/email", auth.LoginWithEmail)
 
   app.Use(func(c *fiber.Ctx) error {
     if c.Cookies("streamer_id") == "" {

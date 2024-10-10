@@ -1,4 +1,4 @@
-package user
+package auth
 
 type TwitchAuthBody struct{
   // names specified by twitch api: https://dev.twitch.tv/docs/api/reference/#get-users
