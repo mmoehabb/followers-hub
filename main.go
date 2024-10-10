@@ -68,9 +68,9 @@ func main() {
     return c.SendStatus(200)
   })
 
-  app.Get("/component/chat", func(c *fiber.Ctx) error {
+  app.Get("/component/comments", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-    components.ChatDrawer().Render(ctx, c.Response().BodyWriter())
+    components.CommentsDrawer().Render(ctx, c.Response().BodyWriter())
     return c.SendStatus(200)
   })
 

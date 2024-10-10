@@ -1,10 +1,10 @@
 package components
 
-templ ChatDrawer() {
-  <section id="chat-drawer" class="fixed flex flex-col justify-end h-1/2 w-full bottom-0 lg:h-screen lg:w-1/4 lg:right-0 font-jersey bg-pattern-v2 shadow animate__animated animate__slideInRight">
+templ CommentsDrawer() {
+  <section id="comments-drawer" class="fixed flex flex-col justify-end h-1/2 w-full bottom-0 lg:h-screen lg:w-1/4 lg:right-0 font-jersey bg-pattern-v2 shadow animate__animated animate__slideInRight">
     <script>
       document.getElementsByTagName("main")[0].onclick = () => {
-        let drawer = document.getElementById("chat-drawer")
+        let drawer = document.getElementById("comments-drawer")
         drawer.style.right = -drawer.clientWidth + "px"
       }
     </script>

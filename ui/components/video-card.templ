@@ -12,7 +12,7 @@ templ VideoCard(title, url string) {
           <i class="mr-2">@SVG("./public/icons/heart.svg")</i> 5
         </button>
         <button class="flex justify-center items-center text-xl mr-4 px-2 py-1 bg-accent hover-bg-text color-text hover-color-accent rounded-lg"
-        hx-get={"/component/chat"} hx-swap="outerHTML" hx-target="#chat-drawer">
+        hx-get={"/component/comments"} hx-swap="outerHTML" hx-target="#comments-drawer">
           <i class="mr-2">@SVG("./public/icons/comment.svg")</i> 10
         </button>
       </div>
