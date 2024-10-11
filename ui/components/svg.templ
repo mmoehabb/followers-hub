@@ -5,7 +5,7 @@ import (
   "os"
 )
 
-func readFileString(path string) string {
+func readFile(path string) string {
   buf, err := os.ReadFile(path)
   if err != nil {
     fmt.Fprintln(os.Stderr, err)
@@ -14,5 +14,5 @@ func readFileString(path string) string {
 }
 
 templ SVG(path string) {
-  @templ.Raw(readFileString(path))
+  @templ.Raw(readFile(path))
 }

@@ -1,0 +1,19 @@
+package components
+
+templ Overlayer(child func() templ.Component) {
+  <div class="animate__animated animate__slideInRight">
+    <script>
+      blur()
+      document.getElementsByTagName("main")[0].onclick = () => {
+        let section = document.getElementById("forms-overlay")
+        let form = section.firstChild
+        form.classList.add("animate__slideOutRight")
+        form.style.opacity = "0"
+        unblur()
+        setTimeout(() => form.remove(), 1250)
+      }
+    </script>
+    { children... }
+    @child()
+  </div>
+}
