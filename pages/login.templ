@@ -32,16 +32,26 @@ templ Login() {
       <main class="flex flex-col justify-around items-center h-full color-text font-julee bg-pattern">
         <div class="flex flex-col md:flex-row justify-evenly items-center p-6">
           <h1 class="mx-2 text-9xl color-accent font-jolly">Followers Hub</h1>
-          <label class="mx-2 w-1/2 text-2xl text-wrap">With <span class="color-accent">FollowersHub</span> you can create your own website, for <span class="color-accent">free</span>, where your followers can react, bookmark, comment, and follow up your content.</label>
+          <label class="mx-2 md:w-1/2 text-2xl text-wrap">With <span class="color-accent">FollowersHub</span> you can create your own website, for <span class="color-accent">free</span>, where your followers can react, bookmark, comment, and follow up your content.</label>
         </div>
 
-        <img src="/public/images/sample.png" width="500" />
+        <div id="swap-div">
+          <img src="/public/images/sample.png" width="500" />
+        </div>
 
         <div class="flex flex-col items-center">
-          <button class="flex py-2 px-8 font-jersey text-3xl bg-secondary color-primary rounded-lg">
+          <button class="flex my-1 py-2 px-8 font-jersey text-3xl bg-secondary color-primary rounded-lg">
             <i class="mr-4">@components.SVG("./public/icons/twitch.svg")</i>
-            "Login with Twitch"
+            Login with Twitch
           </button>
+          <form hx-post="/auth/account" hx-swap="innerHTML" hx-target="#swap-div">
+            <input type="hidden" name="id" value="dump" />
+            <input type="hidden" name="access_token" value="dump" />
+            <button class="flex my-1 py-2 px-8 font-jersey text-3xl bg-secondary color-primary rounded-lg" type="submit">
+              <i class="mr-4">@components.SVG("./public/icons/email.svg")</i>
+              Login with Email
+            </button>
+          </form>
           <label class="text-2xl color-accent m-2">Create your own full-fledged website now with only one click.</label>
         </div>
       </main>

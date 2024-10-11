@@ -3,7 +3,6 @@ package pages
 import (
   "goweb/ui/layouts"
   "goweb/ui/components"
-  "goweb/ui/forms"
 )
 
 templ Index() {
@@ -82,7 +81,6 @@ templ Index() {
       </section>
 
       <section id="forms-overlay" class="fixed flex flex-col right-4 bottom-4">
-        @forms.LoginForm()
       </section>
 
       @layouts.Footer()
