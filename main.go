@@ -36,8 +36,8 @@ func main() {
     return c.SendStatus(200)
   })
 
-  app.Post("/auth/twitch", auth.LoginWithTwitch)
-  app.Post("/auth/email", auth.LoginWithEmail)
+  app.Post("/auth/twitch", auth.Twitch)
+  app.Post("/auth/account", auth.Account)
 
   app.Use(func(c *fiber.Ctx) error {
     if c.Cookies("streamer_id") == "" {

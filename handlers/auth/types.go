@@ -13,3 +13,12 @@ type TwitchClaims struct{
   ImgUrl string `json:"picture"`
 }
 
+type AccountAuthBody struct{
+  Id string `json:"id" xml:"id" form:"id"`
+  AccessToken string `json:"access_token" xml:"access_token" form:"access_token"`
+}
+
+type AccountRegisterBody struct{
+  DisplayName string `json:"name" xml:"name" form:"name"`
+  Password string `json:"password" xml:"password" form:"password"`
+}

@@ -1,8 +1,10 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
 	"goweb/db/streamers"
+	"goweb/ui/forms"
 	"io"
 	"log"
 	"net/http"
@@ -12,7 +14,7 @@ import (
 
 // login hanlder for fiber endpoint /login
 // it expects a POST request
-func LoginWithTwitch(c *fiber.Ctx) error {
+func Twitch(c *fiber.Ctx) error {
   body := new(TwitchAuthBody)
   if err := c.BodyParser(body); err != nil {
     return err
@@ -65,8 +67,37 @@ func LoginWithTwitch(c *fiber.Ctx) error {
   return c.Redirect("/")
 }
 
-func LoginWithEmail(c *fiber.Ctx) error {
-  return c.SendString("Nothing to be done.")
+func Account(c *fiber.Ctx) error {
+  body := new(AccountAuthBody)
+  if err := c.BodyParser(body); err != nil {
+    return err
+  }
+  ok, errs := ValidateAccountAuthBody(body)
+  if ok == false {
+    return c.Status(fiber.StatusBadRequest).JSON(errs)
+  }
+  // if the the user id exists in the db and the access token is valid
+  // set cookies and redirect the client to the root.
+  data, err := streamers.Get(body.Id)
+  if err != nil {
+    log.Println(err)
+    return c.SendStatus(fiber.StatusInternalServerError)
+  }
+  if data.AccessToken == body.AccessToken {
+    c.Cookie(&fiber.Cookie{
+      Name: "token",
+      Value: body.AccessToken,
+    })
+    c.Cookie(&fiber.Cookie{
+      Name: "streamer_id",
+      Value: body.Id,
+    })
+    return c.Redirect("/")
+  }
+  // otherwise render the login/register form
+  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+  forms.LoginForm(nil).Render(context.Background(), c.Response().BodyWriter())
+  return c.SendStatus(200)
 }
 
 // returns TwitchClaims struct and an http status error integer
