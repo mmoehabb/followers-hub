@@ -35,7 +35,7 @@ func Get(id string) (DataModel, error) {
     return DataModel{}, err
   }
   if len(res) == 0 {
-    return DataModel{}, errors.New("couldn't find entity.")
+    return DataModel{}, nil
   }
   row := res[0].([]any)
   streamer := DataModel{
