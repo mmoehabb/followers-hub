@@ -37,7 +37,11 @@ func Twitch(c *fiber.Ctx) error {
     return c.SendStatus(fiber.StatusInternalServerError)
   }
   if found {
-    err := streamers.UpdateTokens(claims.Id, body.AccessToken, body.RefreshToken)
+    err := streamers.Update(&streamers.DataModel{
+      Id: claims.Id,
+      AccessToken: body.AccessToken,
+      RefreshToken: body.RefreshToken,
+    })
     if err != nil {
       log.Println("internal error: ", err)
       return c.SendStatus(fiber.StatusInternalServerError)
@@ -69,8 +73,9 @@ func Twitch(c *fiber.Ctx) error {
 
 func Account(c *fiber.Ctx) error {
   body := new(AccountAuthBody)
-  if err := c.BodyParser(body); err != nil {
-    return err
+  if err := c.ParamsParser(body); err != nil {
+    log.Println(err)
+    return c.SendStatus(fiber.StatusInternalServerError)
   }
   ok, errs := ValidateAccountAuthBody(body)
   if ok == false {
