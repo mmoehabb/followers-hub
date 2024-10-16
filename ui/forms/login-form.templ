@@ -3,45 +3,19 @@ package forms
 import "goweb/ui/components"
 
 templ LoginForm(errs map[string]string) {
-  <div class="flex flex-wrap justify-center items-center">
+  <div class="flex flex-wrap justify-center items-center" hx-ext='response-targets'>
 
-    <form class="flex flex-col m-2 py-4 px-8 bg-text border-2 border-secondary rounded-lg shadow">
+    <form class="flex flex-col m-2 py-4 px-8 bg-text border-2 border-secondary rounded-lg shadow"
+    hx-post="/login/email" hx-swap="outerHTML" hx-target-4xx="closest div">
       <div class="my-2">
-        <label class="mb-1 color-primary">User Id</label>
+        <label class="mb-1 color-primary">Email</label>
         @components.TextInput(
-          "id", "user@1234", "text", "", errs["id"], 
+          "email", "example@mail.com", "email", "", errs["email"],
           templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
         )
       </div>
-      <div class="my-2">
-        <label class="mb-1 color-primary">Password</label>
-        @components.TextInput(
-          "password", "********", "password", "", errs["password"], 
-          templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-        )
-      </div>
-      <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Login</button>
+      <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Login/Register</button>
     </form>
     
-    <form class="flex flex-col m-2 py-4 px-8 bg-text border-2 border-secondary rounded-lg shadow">
-      <div class="my-2">
-        <label class="mb-1 color-primary">Display Name</label>
-        @components.TextInput(
-          "name", "MyNameIsJeff", "text", "", errs["name"], 
-          templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-        )
-      </div>
-      <div class="my-2">
-        <label class="mb-1 color-primary">Password</label>
-        @components.TextInput(
-          "password", "********", "password", "", errs["password"], 
-          templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-        )
-      </div>
-      <button type="submit" class="my-2 py-1 bg-secondary color-text rounded">Register</button>
-    </form>
-
   </div>
 }
-
-

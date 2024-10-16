@@ -44,9 +44,7 @@ templ Login() {
             <i class="mr-4">@components.SVG("./public/icons/twitch.svg")</i>
             Login with Twitch
           </button>
-          <form hx-post="/auth/account" hx-swap="innerHTML" hx-target="#swap-div">
-            <input type="hidden" name="id" value="dump" />
-            <input type="hidden" name="access_token" value="dump" />
+          <form hx-get="/forms/login" hx-swap="innerHTML" hx-target="#swap-div">
             <button class="flex my-1 py-2 px-8 font-jersey text-3xl bg-secondary color-primary rounded-lg" type="submit">
               <i class="mr-4">@components.SVG("./public/icons/email.svg")</i>
               Login with Email
