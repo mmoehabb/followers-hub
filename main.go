@@ -2,15 +2,18 @@ package main
 
 import (
 	"context"
+
 	"github.com/gofiber/fiber/v2"
 
 	"goweb/db"
 	"goweb/db/streamers"
 
 	"goweb/handlers/auth"
-	
-  "goweb/pages"
+	"goweb/handlers/streamer"
+
+	"goweb/pages"
 	"goweb/ui/components"
+	"goweb/ui/forms"
 )
 
 func main() {
@@ -36,6 +39,13 @@ func main() {
     return c.SendStatus(200)
   })
 
+  app.Get("/forms/login", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    forms.LoginForm(nil).Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+
+  app.Post("/login/email", streamer.Login)
   app.Post("/auth/twitch", auth.Twitch)
   app.Post("/auth/account", auth.Account)
 
