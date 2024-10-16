@@ -4,10 +4,10 @@ const (
   CREATE_TABLE_STREAMERS = `
     CREATE TABLE IF NOT EXISTS streamers (
       id TEXT PRIMARY KEY,
-      display_name varchar(25),
+      display_name VARCHAR(25) NOT NULL,
       img_url TEXT NOT NULL,
-      access_token UUID NOT NULL,
-      refresh_token UUID NOT NULL
+      access_token TEXT NOT NULL,
+      refresh_token TEXT NOT NULL
     );
   `
   CREATE_TABLE_FOLLOWERS = `

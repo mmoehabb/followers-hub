@@ -2,6 +2,7 @@ package streamers
 
 import (
 	"errors"
+	"fmt"
 	"goweb/db"
 )
 
@@ -56,13 +57,46 @@ func Exists(id string) (bool, error) {
   return len(res) > 0, nil
 }
 
-func UpdateTokens(id string, at string, rt string) error {
-  res, err := db.SeqQuery("SELECT * FROM streamers WHERE id=$1", id)
+func Update(data *DataModel) error {
+  if data.Id == "" {
+    return errors.New("Id must be specified in order to update data.")
+  }
+  res, err := db.SeqQuery("SELECT * FROM streamers WHERE id=$1", data.Id)
+  if err != nil {
+    db.Disconnect()
+    return err
+  }
   if len(res) == 0 {
     db.Disconnect()
     return errors.New("entity not found.")
   }
-  _, err = db.Query("UPDATE streamers SET access_token=$1, refresh_token=$2 WHERE id=$3", at, rt, id)
+
+  var i int = 1
+  var values []any
+  q := "UPDATE streamers SET "
+  if data.DisplayName != "" {
+    q = fmt.Sprintf("%s%s=$%d ", q, "display_name", i)
+    values = append(values, data.DisplayName)
+    i = i + 1
+  }
+  if data.ImgUrl != "" {
+    q = fmt.Sprintf("%s%s=$%d ", q, "img_url", i)
+    values = append(values, data.ImgUrl)
+    i = i + 1
+  }
+  if data.AccessToken != "" {
+    q = fmt.Sprintf("%s%s=$%d ", q, "access_token", i)
+    values = append(values, data.AccessToken)
+    i = i + 1
+  }
+  if data.RefreshToken != "" {
+    q = fmt.Sprintf("%s%s=$%d ", q, "refresh_token", i)
+    values = append(values, data.RefreshToken)
+    i = i + 1
+  }
+  q = fmt.Sprintf("%sWHERE id='%s'", q, data.Id)
+
+  _, err = db.Query(q, values...)
   if err != nil {
     return err
   }

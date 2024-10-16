@@ -68,7 +68,7 @@ func Query(query string, args ...any) ([]any, error) {
   return SeqQuery(query, args...)
 }
 
-// just like Query by does not close the connection
+// just like Query but does not close the connection
 // make sure to call Query in the last of the "sequence"
 // or manually call Disconnect
 func SeqQuery(query string, args ...any) ([]any, error) {
@@ -86,13 +86,14 @@ func SeqQuery(query string, args ...any) ([]any, error) {
     return nil, err
   }
   var res = []any{}
-  if rows.Next() {
+  for rows.Next() {
     r, err := rows.Values()
     if err != nil {
       return res, err
     }
     res = append(res, r)
   }
+  rows.Close()
   return res, err
 }
 
