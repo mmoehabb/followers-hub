@@ -64,7 +64,6 @@ html[theme="dark"] {
   background-image: radial-gradient(var(--color-secondary) 2px, transparent 0);
   background-size: 30px 30px;
   background-position: 50vw 50vh;
-  transition-duration: 1s;
 }
 
 .bg-pattern-v2 {
