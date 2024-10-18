@@ -14,6 +14,11 @@ function unblur() {
   main.style.filter = ""
 }
 
+function closeNotification(target) {
+  target.classList.add("animate__fadeOutRight")
+  setTimeout(() => target.remove(), 1000);
+}
+
 bgpattern_elements = []
 
 window.onload = () => {
