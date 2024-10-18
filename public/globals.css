@@ -28,8 +28,8 @@ html {
   --color-accent: #AD49E1;
   --color-background: #2E073F;
   --color-text: #EBD3F8;
-  --color-success: #2ed573;
-  --color-error: #ff4757;
+  --color-success: #16a34a;
+  --color-error: #dc2626;
 }
 
 html[theme="dark"] {
@@ -44,8 +44,8 @@ html[theme="dark"] {
   --color-accent: #AD49E1;
   --color-background: #2E073F;
   --color-text: #EBD3F8;
-  --color-success: #2ed573;
-  --color-error: #ff4757;
+  --color-success: #16a34a;
+  --color-error: #dc2626;
 }
 
 .bg-primary { background-color: var(--color-primary); fill: var(--color-primary) }
@@ -152,31 +152,3 @@ small {font-size: 0.750rem; /* 12px */}
   font-weight: 400;
   font-style: normal;
 }
-
-/** animations **/
-
-@keyframes example {
-  0% { bottom: -200px; right: 50px; }
-  5% { bottom: -50px; right: 50px; }
-  8% { bottom: -50px; right: 50px; }
-  10% { bottom: -200px; right: 50px; }
-  11% { bottom: -200px; right: 80%; }
-  
-  20% { bottom: -50px; right: 80%; }
-  23% { bottom: -50px; right: 80%; } 
-  25% { bottom: -200px; right: 80%; } 
-  26% { bottom: -200px; right: 50%; }
-  
-  37% { bottom: -100px; right: 50%; }
-  40% { bottom: -100px; right: 50%; }
-  42% { bottom: -200px; right: 50%; }
-  48% { bottom: -200px; right: 100% }
-  
-  60% { bottom: -20px; right: 100% }
-  61% { bottom: -20px; right: calc(100% - 75px); }
-  65% { bottom: -20px; right: calc(100% - 75px); }
-  70% { bottom: -20px; right: 100%; }
-
-  100% { bottom: -20px; right: 100%; }
-}
-
