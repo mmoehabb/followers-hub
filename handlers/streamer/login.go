@@ -83,7 +83,6 @@ func Login(c *fiber.Ctx) error {
 }
 
 func sendAuthMail(address string, token string) error {
-  // Get the App Engine context from the request
   msgbody := fmt.Sprintf(`
     <html>
       <body>
@@ -92,8 +91,7 @@ func sendAuthMail(address string, token string) error {
         <a src='http://localhost:3000/auth/account?id=%s&refresh_token=%s'>Click here to login.</a>
       </body>
     </html>`, address, token)
-	// Create a new email message
-	// Send the email
+  // @TODO: use SMTP server to send the message
   fmt.Println(msgbody)
   return nil
 }
