@@ -30,13 +30,13 @@ templ Index() {
       @layouts.Header()
 
       <main class="flex-1 flex flex-wrap h-max-screen lg:p-12 lg:px-24 bg-background color-text">
-        <nav class="flex flex-col w-full lg:w-80 h-auto lg:h-full m-12 lg:m-0">
-          <img src="/public/images/user.jpg" class="absolute w-40 h-40 translate-x-[-20%] translate-y-[-10%] rounded-full shadow" />
-          <section class="flex flex-col pt-12 w-full lg:w-80 h-auto lg:h-full bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
+        <nav class="flex flex-col w-full lg:w-60 h-auto lg:h-full m-12 lg:m-0">
+          <img src="/public/images/user.jpg" class="absolute w-36 h-36 translate-x-[-30%] translate-y-[-15%] rounded-full shadow" />
+          <section class="flex flex-col pt-6 w-full h-auto lg:h-full bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
             // Streamer info part
             <div class="flex flex-col items-end color-text mb-12">
               <div class="flex flex-col w-1/2">
-                <label class="text-3xl mb-2 font-jersey">Ross Geller</label>
+                <label class="text-2xl mb-2 font-jersey">Ross Geller</label>
                 <a href="/" class="color-text">
                   @components.SVG("./public/icons/twitch.svg")
                 </a>
@@ -44,9 +44,9 @@ templ Index() {
             </div>
             // Channels part
             <div class="flex-1 flex flex-col font-jersey">
-              <a class="w-full py-2 my-1 text-3xl text-center bg-text color-secondary" href="#">Twitch</a>
-              <a class="w-full py-2 my-1 text-3xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Youtube</a>
-              <a class="w-full py-2 my-1 text-3xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Facebook</a>
+              <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary" href="#">Twitch</a>
+              <a class="w-full py-2 my-1 text-2xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Youtube</a>
+              <a class="w-full py-2 my-1 text-2xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Facebook</a>
             </div>
           </section>
           <section class="flex justify-center items-center mt-8">
@@ -54,7 +54,6 @@ templ Index() {
             <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
           </section>
         </nav>
-
         <section class="flex-1 flex flex-col items-center lg:px-8">
           <div class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey">
             <button class="p-4 color-accent">Streams</button>

@@ -1,7 +1,7 @@
 package components
 
 templ VideoCard(title, url string) {
-  <div class="flex flex-col justify-center w-full lg:w-[28%] h-80 lg:h-96 m-4 font-jersey bg-secondary rounded-lg shadow overflow-hidden">
+  <div class="flex flex-col justify-center w-full lg:w-72 h-80 lg:h-96 m-4 font-jersey bg-secondary rounded-lg shadow overflow-hidden">
     <iframe src={url} class="flex-1"></iframe>
     <div class="p-4">
       <h1 class="text-xl lg:text-3xl truncate">{title}</h1>
