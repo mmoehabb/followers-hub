@@ -14,6 +14,6 @@ type TwitchClaims struct{
 }
 
 type AccountAuthBody struct{
-  Id string `json:"id" xml:"id" form:"id"`
-  AccessToken string `json:"access_token" xml:"access_token" form:"access_token"`
+  Id string `query:"id"`
+  RefreshToken string `query:"refresh_token"`
 }

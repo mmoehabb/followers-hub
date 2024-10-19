@@ -1,9 +1,9 @@
 package components
 
 templ Notification(msg string, bgclass string) {
-  <div class={"notification max-w-sm m-2 p-4 rounded-xl shadow animate__animated animate__fadeInRight cursor-pointer", bgclass}
+  <div class={"notification max-w-sm m-2 p-4 rounded-xl shadow animate__animated animate__fadeInRight cursor-pointer overflow-hidden", bgclass}
   onclick="closeNotification(this)">
     <script>setTimeout(() => document.getElementsByClassName("notification")[0].click(), 5000)</script>
-    <label class="text-lg color-text">{msg}</label>
+    <label class="text-md text-justify color-text">{msg}</label>
   </div>
 }

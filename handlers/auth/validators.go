@@ -13,8 +13,8 @@ func ValidateTwitchAuthBody(body *TwitchAuthBody) (bool, map[string]string) {
 func ValidateAccountAuthBody(body *AccountAuthBody) (bool, map[string]string) {
   ok := true
   errs := make(map[string]string)
-  if body.AccessToken == "" {
-    errs["access_token"] = "access_token required."
+  if body.RefreshToken == "" {
+    errs["refresh_token"] = "refresh_token required."
     ok = false
   }
   if body.Id == "" {

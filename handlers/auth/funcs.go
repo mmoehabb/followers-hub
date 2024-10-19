@@ -1,14 +1,14 @@
 package auth
 
 import (
-	"context"
 	"encoding/json"
-	"goweb/db/streamers"
-	"goweb/ui/forms"
 	"io"
 	"log"
 	"net/http"
+  "fmt"
+  "crypto/rand"
 
+	"goweb/db/streamers"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -71,40 +71,6 @@ func Twitch(c *fiber.Ctx) error {
   return c.Redirect("/")
 }
 
-func Account(c *fiber.Ctx) error {
-  body := new(AccountAuthBody)
-  if err := c.ParamsParser(body); err != nil {
-    log.Println(err)
-    return c.SendStatus(fiber.StatusInternalServerError)
-  }
-  ok, errs := ValidateAccountAuthBody(body)
-  if ok == false {
-    return c.Status(fiber.StatusBadRequest).JSON(errs)
-  }
-  // if the the user id exists in the db and the access token is valid
-  // set cookies and redirect the client to the root.
-  data, err := streamers.Get(body.Id)
-  if err != nil {
-    log.Println(err)
-    return c.SendStatus(fiber.StatusInternalServerError)
-  }
-  if data.AccessToken == body.AccessToken {
-    c.Cookie(&fiber.Cookie{
-      Name: "token",
-      Value: body.AccessToken,
-    })
-    c.Cookie(&fiber.Cookie{
-      Name: "streamer_id",
-      Value: body.Id,
-    })
-    return c.Redirect("/")
-  }
-  // otherwise render the login/register form
-  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-  forms.LoginForm(nil).Render(context.Background(), c.Response().BodyWriter())
-  return c.SendStatus(200)
-}
-
 // returns TwitchClaims struct and an http status error integer
 func getTwitchClaims(accessToken string) (TwitchClaims, int) {
   req, err := http.NewRequest("GET", `https://id.twitch.tv/oauth2/userinfo?claims={"userinfo":{"preferred_username":null,"picture":null}}`, nil)
@@ -125,3 +91,43 @@ func getTwitchClaims(accessToken string) (TwitchClaims, int) {
   return info, 0
 }
 
+func Account(c *fiber.Ctx) error {
+  body := new(AccountAuthBody)
+  if err := c.QueryParser(body); err != nil {
+    log.Println(err)
+    return c.SendStatus(fiber.StatusInternalServerError)
+  }
+  ok, errs := ValidateAccountAuthBody(body)
+  if ok == false {
+    return c.Status(fiber.StatusBadRequest).JSON(errs)
+  }
+  // if the the user id exists in the db and the refresh token is valid
+  // generate access token and set cookies before redirecting to the root.
+  data, err := streamers.Get(body.Id)
+  if err != nil {
+    log.Println(err)
+    return c.SendStatus(fiber.StatusInternalServerError)
+  }
+  if data.RefreshToken == body.RefreshToken {
+    accesstoken := generateToken()
+    streamers.Update(&streamers.DataModel{
+      Id: body.Id,
+      AccessToken: accesstoken,
+    })
+    c.Cookie(&fiber.Cookie{
+      Name: "token",
+      Value: accesstoken,
+    })
+    c.Cookie(&fiber.Cookie{
+      Name: "streamer_id",
+      Value: body.Id,
+    })
+  }
+  return c.Redirect("/")
+}
+
+func generateToken() string {
+  b := make([]byte, 32)
+  rand.Read(b)
+  return fmt.Sprintf("%x", b)
+}

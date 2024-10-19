@@ -47,8 +47,9 @@ func main() {
 
   app.Post("/login/email", streamer.Login)
   app.Post("/auth/twitch", auth.Twitch)
-  app.Post("/auth/account", auth.Account)
+  app.Get("/auth/account", auth.Account)
 
+  // token authentication middleware
   app.Use(func(c *fiber.Ctx) error {
     if c.Cookies("streamer_id") == "" {
       return c.Redirect("/login")
