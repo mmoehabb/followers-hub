@@ -3,9 +3,10 @@ package pages
 import (
   "goweb/ui/layouts"
   "goweb/ui/components"
+  "goweb/db/streamers"
 )
 
-templ Index() {
+templ Index(streamer *streamers.DataModel) {
   <!DOCTYPE html>
   <html theme="light">
     <head>
@@ -13,8 +14,8 @@ templ Index() {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
       <title>Followers Hub</title>
-      <meta name="description" content="A template for developing web apps with golang.">
-      <meta name="keywords" content="go, web, templ, htmx, tailwind, fiber">
+      <meta name="description" content="A generated FollowersHub web application.">
+      <meta name="keywords" content="social, hub, streams, youtube">
       <meta name="author" content="M. E. Abdelsalam">
 
       <link href="public/globals.css" rel="stylesheet" />
@@ -31,22 +32,20 @@ templ Index() {
 
       <main class="flex-1 flex flex-wrap h-max-screen lg:p-12 lg:px-24 bg-background color-text">
         <nav class="flex flex-col w-full lg:w-60 h-auto lg:h-full m-12 lg:m-0">
-          <img src="/public/images/user.jpg" class="absolute w-36 h-36 translate-x-[-30%] translate-y-[-15%] rounded-full shadow" />
+          <img src={streamer.ImgUrl} class="absolute w-36 h-36 translate-x-[-30%] translate-y-[-15%] rounded-full shadow" />
           <section class="flex flex-col pt-6 w-full h-auto lg:h-full bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
-            // Streamer info part
+            // streamer info
             <div class="flex flex-col items-end color-text mb-12">
               <div class="flex flex-col w-1/2">
-                <label class="text-2xl mb-2 font-jersey">Ross Geller</label>
+                <label class="text-2xl mb-2 font-jersey">{streamer.DisplayName}</label>
                 <a href="/" class="color-text">
                   @components.SVG("./public/icons/twitch.svg")
                 </a>
               </div>
             </div>
-            // Channels part
+            // channels
             <div class="flex-1 flex flex-col font-jersey">
-              <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary" href="#">Twitch</a>
-              <a class="w-full py-2 my-1 text-2xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Youtube</a>
-              <a class="w-full py-2 my-1 text-2xl text-center bg-secondary hover-bg-text color-text hover-color-secondary" href="#">Facebook</a>
+              <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary" href="?section=Youtube">Youtube</a>
             </div>
           </section>
           <section class="flex justify-center items-center mt-8">
@@ -55,11 +54,11 @@ templ Index() {
           </section>
         </nav>
         <section class="flex-1 flex flex-col items-center lg:px-8">
+          // sections
           <div class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey">
-            <button class="p-4 color-accent">Streams</button>
-            <button class="p-4 color-text hover-color-secondary">Chatting</button>
-            <button class="p-4 color-text hover-color-secondary">Horror</button>
+            <button class="p-4 color-accent">Clips</button>
           </div>
+          // videos
           <div class="flex flex-wrap justify-center w-full h-full p-4 overflow-auto">
             @components.VideoCard(
               "Some long title for the embedded video",

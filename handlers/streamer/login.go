@@ -68,8 +68,8 @@ func Login(c *fiber.Ctx) error {
   // otherwise generate an AccessToken, register the user, and send a mail with /auth/* link.
   err = streamers.Add(&streamers.DataModel{
     Id: body.Email, 
-    DisplayName: "MyNameIsJeff",
-    ImgUrl: "/images/user.jpg",
+    DisplayName: "Ross Geller",
+    ImgUrl: "/public/images/user.jpg",
     AccessToken: newtoken,
     RefreshToken: newtoken,
   })

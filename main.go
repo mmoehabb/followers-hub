@@ -66,7 +66,11 @@ func main() {
   
   app.Get("/", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-    pages.Index().Render(ctx, c.Response().BodyWriter())
+    data, err := streamers.Get(c.Cookies("streamer_id"))
+    if err != nil {
+      return c.SendStatus(fiber.StatusInternalServerError)
+    }
+    pages.Index(&data).Render(ctx, c.Response().BodyWriter())
     return c.SendStatus(200)
   })
 
