@@ -3,10 +3,11 @@ package pages
 import (
   "goweb/ui/layouts"
   "goweb/ui/components"
+  "goweb/ui/wrappers"
   "goweb/db/streamers"
 )
 
-templ Index(streamer *streamers.DataModel) {
+templ Index(streamer *streamers.DataModel, admin bool) {
   <!DOCTYPE html>
   <html theme="light">
     <head>
@@ -18,11 +19,11 @@ templ Index(streamer *streamers.DataModel) {
       <meta name="keywords" content="social, hub, streams, youtube">
       <meta name="author" content="M. E. Abdelsalam">
 
-      <link href="public/globals.css" rel="stylesheet" />
+      <link href="/public/globals.css" rel="stylesheet" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-      <script src="public/tailwind.js"></script>
-      <script src="public/util.js"></script>
+      <script src="/public/tailwind.js"></script>
+      <script src="/public/util.js"></script>
       <script src="https://unpkg.com/htmx.org@2.0.2"></script>
       <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
     </head>
@@ -33,6 +34,7 @@ templ Index(streamer *streamers.DataModel) {
       <main class="flex-1 flex flex-wrap h-max-screen lg:p-12 lg:px-24 bg-background color-text">
         <nav class="flex flex-col w-full lg:w-60 h-auto lg:h-full m-12 lg:m-0">
           <img src={streamer.ImgUrl} class="absolute w-36 h-36 translate-x-[-30%] translate-y-[-15%] rounded-full shadow" />
+
           <section class="flex flex-col pt-6 w-full h-auto lg:h-full bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
             // streamer info
             <div class="flex flex-col items-end color-text mb-12">
@@ -43,16 +45,17 @@ templ Index(streamer *streamers.DataModel) {
                 </a>
               </div>
             </div>
-            // channels
-            <div class="flex-1 flex flex-col font-jersey">
-              <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary" href="?section=Youtube">Youtube</a>
-            </div>
+
+            @wrappers.Channels(streamer.Id, admin)
           </section>
+
           <section class="flex justify-center items-center mt-8">
             @components.TextInput("email", "you@example.com", "email", "", "", templ.Attributes{})
             <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
           </section>
+
         </nav>
+
         <section class="flex-1 flex flex-col items-center lg:px-8">
           // sections
           <div class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey">
@@ -70,6 +73,7 @@ templ Index(streamer *streamers.DataModel) {
             )
           </div>
         </section>
+
       </main>
       
       <section id="video-overlay" class="fixed flex justify-center items-center w-auto left-0 bottom-0 z-[10]">
