@@ -29,7 +29,7 @@ const (
   CREATE_TABLE_CHANNELS = `
     CREATE TABLE IF NOT EXISTS channels (
       id SERIAL PRIMARY KEY,
-      streamer TEXT REFERENCES streamers(id),
+      streamer_id TEXT REFERENCES streamers(id),
       name VARCHAR(45) NOT NULL,
       primary_color VARCHAR(6) NOT NULL,
       secondary_color VARCHAR(6) NOT NULL,
