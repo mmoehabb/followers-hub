@@ -1,0 +1,18 @@
+package wrappers
+
+templ Channels(streamer_id string, admin bool) {
+  <div 
+  class="flex-1 flex flex-col font-jersey" 
+  hx-trigger="load" 
+  hx-get={"/hub/" + streamer_id + "/channels"} 
+  hx-swap="afterbegin">
+
+    if admin {
+      <a class="w-full py-2 my-1 text-xl text-center bg-accent color-text cursor-pointer" 
+      hx-get="/forms/channel" hx-swap="innerHTML" hx-target="#forms-overlay">
+        Add Channel
+      </a>
+    }
+
+  </div>
+}
