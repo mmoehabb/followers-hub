@@ -9,6 +9,7 @@ import (
 	"goweb/db/streamers"
 
 	"goweb/handlers/auth"
+	"goweb/handlers/channel"
 	"goweb/handlers/streamer"
 
 	"goweb/pages"
@@ -33,21 +34,43 @@ func main() {
     return c.SendString("Database has been seeded.")
   })
 
+  // Streamer page endpoints
+  app.Get("/hub/:streamer_id", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    data, err := streamers.Get(c.Params("streamer_id"))
+    if err != nil {
+      return c.SendStatus(fiber.StatusInternalServerError)
+    }
+    if (data.Id == "") {
+      return c.SendStatus(fiber.StatusNotFound)
+    }
+    pages.Index(&data, false).Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+  app.Get("/hub/:streamer_id/channels", channel.GetChannels)
+
+  // forms HTMX endpoints
+  app.Get("/forms/login", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    forms.LoginForm(nil).Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+  app.Get("/forms/channel", func(c *fiber.Ctx) error {
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    forms.ChannelForm().Render(ctx, c.Response().BodyWriter())
+    return c.SendStatus(200)
+  })
+
+  // Login and Authentication endpoints
   app.Get("/login", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
     pages.Login().Render(ctx, c.Response().BodyWriter())
     return c.SendStatus(200)
   })
 
-  app.Get("/forms/login", func(c *fiber.Ctx) error {
-    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-    forms.LoginForm(nil).Render(ctx, c.Response().BodyWriter())
-    return c.SendStatus(200)
-  })
-
-  app.Post("/login/email", streamer.Login)
+  app.Get("/auth/account", auth.Account) // GET method as it's dispatched by an access link
   app.Post("/auth/twitch", auth.Twitch)
-  app.Get("/auth/account", auth.Account)
+  app.Post("/login/email", streamer.Login)
 
   // token authentication middleware
   app.Use(func(c *fiber.Ctx) error {
@@ -64,16 +87,23 @@ func main() {
     return c.Next()
   })
   
+  // the index page; only works for logged in users
+  // it used basically for every thing: adding/editing 
+  // contents and more generally maintaining the "Hub"
   app.Get("/", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
     data, err := streamers.Get(c.Cookies("streamer_id"))
     if err != nil {
       return c.SendStatus(fiber.StatusInternalServerError)
     }
-    pages.Index(&data).Render(ctx, c.Response().BodyWriter())
+    if data.Id == "" {
+      return c.Redirect("/login")
+    }
+    pages.Index(&data, true).Render(ctx, c.Response().BodyWriter())
     return c.SendStatus(200)
   })
 
+  // components endpoints; these are mostly used for pop-up layouts
   app.Get("/component/video", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
     if c.Query("url") == "" {
@@ -82,7 +112,6 @@ func main() {
     components.VideoOverlay(c.Query("url")).Render(ctx, c.Response().BodyWriter())
     return c.SendStatus(200)
   })
-
   app.Get("/component/comments", func(c *fiber.Ctx) error {
     c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
     components.CommentsDrawer().Render(ctx, c.Response().BodyWriter())
