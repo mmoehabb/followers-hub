@@ -2,9 +2,6 @@ package layouts
 
 templ Header() {
   <header class="hidden flex justify-between items-center px-4 md:px-24 py-12 drop-shadow shadow z-100">
-    <h1 class="text-2xl md:text-3xl font-black color-primary">
-      GoWeb Template { ctx.Value("version").(string) }
-    </h1>
     <button onclick="switchMode()">
       <svg
         class="h-8 md:h-10"
