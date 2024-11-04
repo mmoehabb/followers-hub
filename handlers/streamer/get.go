@@ -1,11 +1,11 @@
-package channel
+package streamer
 
 import (
 	"context"
-	"log"
+  "log"
 
+  "goweb/ui/collections"
 	"goweb/db/channels"
-	"goweb/ui/collections"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -20,3 +20,4 @@ func GetChannels(c *fiber.Ctx) error {
   collections.Channels(channels).Render(context.Background(), c.Response().BodyWriter())
   return c.SendStatus(fiber.StatusOK)
 }
+
