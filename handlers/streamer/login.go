@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
+	"goweb/ancillaries"
 	"goweb/db/streamers"
 	"goweb/ui/components"
 )
@@ -38,18 +39,21 @@ func recoverf(c *fiber.Ctx) error {
 
 func Login(c *fiber.Ctx) error {
   defer recoverf(c)
+
   c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
   body := new(LoginBody)
   check(c.BodyParser(body), fiber.StatusBadRequest)
+
   ok, _ := ValidateLoginBody(body)
   if ok == false {
-    components.Notification("Ensure the email is valid.", "bg-error").
-      Render(context.Background(), c.Response().BodyWriter())
+    ancillaries.Notify(c, "Ensure the email is valid.", "bg-success")
     return c.SendStatus(fiber.StatusBadRequest)
   }
+
   // Check if the user id already exists;
   found, err := streamers.Exists(body.Email)
   check(err, fiber.StatusInternalServerError)
+
   // if it does exist update RefreshToken and send a mail with /auth/* link accordingly
   newtoken := generateToken()
   if found {
@@ -58,11 +62,13 @@ func Login(c *fiber.Ctx) error {
       RefreshToken: newtoken,
     })
     check(err, fiber.StatusInternalServerError)
+
     err := sendAuthMail(body.Email, newtoken)
     check(err, fiber.StatusInternalServerError)
+
     okmsg := "Checkout your email inbox; a mail with access link shall be sent to you."
-    components.Notification(okmsg, "bg-success").
-      Render(context.Background(), c.Response().BodyWriter())
+    ancillaries.Notify(c, okmsg, "bg-success")
+
     return c.SendStatus(fiber.StatusOK)
   }
   // otherwise generate an AccessToken, register the user, and send a mail with /auth/* link.
@@ -74,11 +80,13 @@ func Login(c *fiber.Ctx) error {
     RefreshToken: newtoken,
   })
   check(err, fiber.StatusInternalServerError)
+
   err = sendAuthMail(body.Email, newtoken)
   check(err, fiber.StatusInternalServerError)
+
   okmsg := "Checkout your email inbox; a mail with access link shall be sent to you."
-  components.Notification(okmsg, "bg-success").
-    Render(context.Background(), c.Response().BodyWriter())
+  ancillaries.Notify(c, okmsg, "bg-success")
+
   return c.SendStatus(fiber.StatusOK)
 }
 
