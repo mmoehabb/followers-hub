@@ -31,10 +31,10 @@ const (
       id SERIAL PRIMARY KEY,
       streamer_id TEXT REFERENCES streamers(id),
       name VARCHAR(45) NOT NULL,
-      primary_color VARCHAR(6) NOT NULL,
-      secondary_color VARCHAR(6) NOT NULL,
-      accent_color VARCHAR(6) NOT NULL,
-      text_color VARCHAR(6) NOT NULL
+      primary_color VARCHAR(7) NOT NULL,
+      secondary_color VARCHAR(7) NOT NULL,
+      accent_color VARCHAR(7) NOT NULL,
+      text_color VARCHAR(7) NOT NULL
     );
   `
   CREATE_TABLE_SECTIONS = `
