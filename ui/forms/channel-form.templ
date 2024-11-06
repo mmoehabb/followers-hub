@@ -3,7 +3,12 @@ package forms
 import "goweb/ui/components"
 
 templ ChannelForm() {
-  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight">
+  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight"
+  hx-ext='response-targets' 
+  hx-post="/create/channel"
+  hx-swap="afterbegin" 
+  hx-target-error="#notifications-container"
+  hx-target="#notifications-container">
     <script>
       blur()
       document.getElementsByTagName("main")[0].onclick = () => {
@@ -26,10 +31,10 @@ templ ChannelForm() {
     <div class="flex flex-col my-2">
       <label class="block mb-1 color-primary">Theme</label>
       <div class="flex justify-around">
-        @components.ColorPicker("#2E073F")
-        @components.ColorPicker("#7A1CAC")
-        @components.ColorPicker("#AD49E1")
-        @components.ColorPicker("#EBD3F8")
+        @components.ColorPicker("primary-color", "#2E073F")
+        @components.ColorPicker("secondary-color", "#7A1CAC")
+        @components.ColorPicker("accent-color", "#AD49E1")
+        @components.ColorPicker("text-color", "#EBD3F8")
       </div>
     </div>
     <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Add/Edit Channel</button>

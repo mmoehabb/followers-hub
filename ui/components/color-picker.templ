@@ -1,9 +1,9 @@
 package components
 
-templ ColorPicker(value string) {
+templ ColorPicker(name, value string) {
   <div class={"w-12 h-12 bg-[" + value + "] rounded-full shadow"}>
     <input 
-      name="primary-color" 
+      name={name} 
       type="color" 
       value={value}
       class="w-full h-full opacity-0" 
