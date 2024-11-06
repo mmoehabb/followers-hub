@@ -7,6 +7,7 @@ import (
 	"goweb/middlewares"
 
 	"goweb/handlers/auth"
+	"goweb/handlers/channel"
 	"goweb/handlers/guih"
 	"goweb/handlers/streamer"
 )
@@ -47,6 +48,9 @@ func main() {
   // it used basically for every thing: adding/editing 
   // contents and more generally maintaining the "Hub"
   app.Get("/", guih.IndexPage(true))
+
+  // POST create handlers
+  app.Post("/create/channel", channel.Create)
 
   // components endpoints; these are mostly used for pop-up layouts
   app.Get("/component/video", guih.Video)

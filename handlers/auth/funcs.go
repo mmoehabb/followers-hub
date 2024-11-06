@@ -17,7 +17,7 @@ import (
 func Twitch(c *fiber.Ctx) error {
   body := new(TwitchAuthBody)
   if err := c.BodyParser(body); err != nil {
-    return err
+    return c.Status(fiber.StatusBadRequest).JSON(err)
   }
   // verify that body.AccessToken is passed
   ok, errs := ValidateTwitchAuthBody(body)
