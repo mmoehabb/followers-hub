@@ -9,22 +9,45 @@ type DataModel struct{
   Id int
   StreamerId string
   Name string
+  PrimaryColor string
+  SecondaryColor string
+  AccentColor string
+  TextColor string
 }
 
-func Add(d *DataModel) error {
+func parseRow(row []any) DataModel {
+  return DataModel{ 
+    Id: int(row[0].(int32)),
+    StreamerId: row[1].(string),
+    Name: row[2].(string),
+    PrimaryColor: row[3].(string),
+    SecondaryColor: row[4].(string),
+    AccentColor: row[5].(string),
+    TextColor: row[6].(string),
+  }
+}
+
+func Add(d *DataModel) (bool, error) {
   res, err := db.SeqQuery("SELECT * FROM channels WHERE streamer_id=$1 AND name=$2", d.StreamerId, d.Name)
   if len(res) != 0 {
     db.Disconnect()
-    return errors.New("channel already found.")
+    return false, nil
   }
   _, err = db.Query(
-    "INSERT INTO channels VALUES ($1, $2, $3)", 
-    d.Id, d.StreamerId, d.Name,
+    `INSERT INTO channels (
+      streamer_id, 
+      name, 
+      primary_color, 
+      secondary_color, 
+      accent_color, 
+      text_color
+    ) VALUES ($1, $2, $3, $4, $5, $6);`,
+    d.StreamerId, d.Name, d.PrimaryColor, d.SecondaryColor, d.AccentColor, d.TextColor,
   )
   if err != nil {
-    return err
+    return false, err
   }
-  return nil
+  return true, nil
 }
 
 func Get(id int) (DataModel, error) {
@@ -36,19 +59,14 @@ func Get(id int) (DataModel, error) {
     return DataModel{}, errors.New("data not found.")
   }
   row := res[0].([]any)
-  obj := DataModel{ 
-    Id: row[0].(int),
-    StreamerId: row[1].(string),
-    Name: row[2].(string),
-  }
-  return obj, nil
+  return parseRow(row), nil
 }
 
 func GetChannelsOf(username string) ([]DataModel, error) {
   res, err := db.Query("SELECT * FROM channels WHERE streamer_id=$1", username)
   list := make([]DataModel, len(res))
   for i, row := range res {
-    list[i] = row.(DataModel)
+    list[i] = parseRow(row.([]any))
   }
   return list, err
 }
@@ -57,3 +75,4 @@ func Remove(id int) error {
   _, err := db.Query("DELETE FROM channels WHERE id=$1", id)
   return err
 }
+
