@@ -6,14 +6,6 @@ import (
 	"goweb/db"
 )
 
-type DataModel struct{
-  Id string
-  DisplayName string
-  ImgUrl string
-  AccessToken string
-  RefreshToken string
-}
-
 func Add(d *DataModel) error {
   res, err := db.SeqQuery("SELECT * FROM streamers WHERE id=$1", d.Id)
   if len(res) != 0 {
@@ -39,13 +31,7 @@ func Get(id string) (DataModel, error) {
     return DataModel{}, nil
   }
   row := res[0].([]any)
-  streamer := DataModel{
-    Id: row[0].(string),
-    DisplayName: row[1].(string),
-    ImgUrl: row[2].(string),
-    AccessToken: row[3].(string),
-    RefreshToken: row[4].(string),
-  }
+  streamer := parseRow(row)
   return streamer, nil
 }
 

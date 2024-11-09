@@ -1,31 +1,8 @@
 package channels
 
 import (
-	"errors"
 	"goweb/db"
 )
-
-type DataModel struct{
-  Id int
-  StreamerId string
-  Name string
-  PrimaryColor string
-  SecondaryColor string
-  AccentColor string
-  TextColor string
-}
-
-func parseRow(row []any) DataModel {
-  return DataModel{ 
-    Id: int(row[0].(int32)),
-    StreamerId: row[1].(string),
-    Name: row[2].(string),
-    PrimaryColor: row[3].(string),
-    SecondaryColor: row[4].(string),
-    AccentColor: row[5].(string),
-    TextColor: row[6].(string),
-  }
-}
 
 func Add(d *DataModel) (bool, error) {
   res, err := db.SeqQuery("SELECT * FROM channels WHERE streamer_id=$1 AND name=$2", d.StreamerId, d.Name)
@@ -56,7 +33,7 @@ func Get(id int) (DataModel, error) {
     return DataModel{}, err
   }
   if len(res) == 0 {
-    return DataModel{}, errors.New("data not found.")
+    return DataModel{}, nil
   }
   row := res[0].([]any)
   return parseRow(row), nil

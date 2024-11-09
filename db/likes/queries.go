@@ -5,11 +5,6 @@ import (
 	"goweb/db"
 )
 
-type DataModel struct{
-  VideoId int
-  FollowerEmail string
-}
-
 func Add(d *DataModel) error {
   _, err := db.Query(
     "INSERT INTO likes VALUES ($1, $2)", 
@@ -30,10 +25,7 @@ func Get(id int) (DataModel, error) {
     return DataModel{}, errors.New("data not found.")
   }
   row := res[0].([]any)
-  obj := DataModel{ 
-    VideoId: row[0].(int),
-    FollowerEmail: row[1].(string),
-  }
+  obj := parseRow(row)
   return obj, nil
 }
 

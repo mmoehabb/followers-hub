@@ -5,13 +5,6 @@ import (
 	"goweb/db"
 )
 
-type DataModel struct{
-  Id int
-  SectionId int
-  Title string
-  Url string
-}
-
 func Add(d *DataModel) error {
   res, err := db.SeqQuery("SELECT * FROM videos WHERE section_id=$1 AND title=$2", d.SectionId, d.Title)
   if len(res) != 0 {
@@ -37,12 +30,7 @@ func Get(id int) (DataModel, error) {
     return DataModel{}, errors.New("data not found.")
   }
   row := res[0].([]any)
-  obj := DataModel{ 
-    Id: row[0].(int),
-    SectionId: row[1].(int),
-    Title: row[2].(string),
-    Url: row[3].(string),
-  }
+  obj := parseRow(row)
   return obj, nil
 }
 
@@ -50,7 +38,7 @@ func GetVideosOf(section_id int) ([]DataModel, error) {
   res, err := db.Query("SELECT * FROM videos WHERE section_id=$1", section_id)
   list := make([]DataModel, len(res))
   for i, row := range res {
-    list[i] = row.(DataModel)
+    list[i] = parseRow(row.([]any))
   }
   return list, err
 }

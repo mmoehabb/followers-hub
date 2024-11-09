@@ -7,13 +7,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type DataModel struct{
-  VideoId int
-  FollowerEmail string
-  Content string
-  CommentedAt pgtype.Timestamp
-}
-
 func Add(d *DataModel) error {
   _, err := db.Query(
     "INSERT INTO comments VALUES ($1, $2, $3)", 
@@ -34,12 +27,7 @@ func Get(id int) (DataModel, error) {
     return DataModel{}, errors.New("data not found.")
   }
   row := res[0].([]any)
-  obj := DataModel{ 
-    VideoId: row[0].(int),
-    FollowerEmail: row[1].(string),
-    Content: row[2].(string),
-    CommentedAt: row[3].(pgtype.Timestamp),
-  }
+  obj := parseRow(row)
   return obj, nil
 }
 
@@ -47,7 +35,7 @@ func GetVideosOf(video_id int) ([]DataModel, error) {
   res, err := db.Query("SELECT * FROM comments WHERE video_id=$1", video_id)
   list := make([]DataModel, len(res))
   for i, row := range res {
-    list[i] = row.(DataModel)
+    list[i] = parseRow(row.([]any))
   }
   return list, err
 }
