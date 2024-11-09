@@ -1,3 +1,13 @@
+const html = document.getElementsByTagName('html')[0]
+
+function setTheme(pcolor, scolor, acolor, tcolor) {
+  html.style.setProperty("--color-primary", pcolor)
+  html.style.setProperty("--color-background", pcolor)
+  html.style.setProperty("--color-secondary", scolor)
+  html.style.setProperty("--color-accent", acolor)
+  html.style.setProperty("--color-text", tcolor)
+}
+
 function switchMode() {
   const html = document.getElementsByTagName("html")[0]
   const theme = html.getAttribute("theme")
