@@ -8,6 +8,7 @@ import (
 
 	"goweb/handlers/auth"
 	"goweb/handlers/channel"
+	"goweb/handlers/section"
 	"goweb/handlers/guih"
 	"goweb/handlers/streamer"
 )
@@ -30,12 +31,13 @@ func main() {
   app.Get("/hub/:streamer_id", guih.IndexPage(false))
   app.Get("/hub/:streamer_id/channels", streamer.GetChannels)
   app.Get("/hub/:channel_id<int>/sections", channel.GetSections)
-  //app.Get("/hub/:section_id<int/>/videos", section.GetVideos)
+  app.Get("/hub/:section_id<int/>/videos", section.GetVideos)
 
   // forms HTMX endpoints
   app.Get("/forms/login", guih.LoginForm)
   app.Get("/forms/channel", guih.ChannelForm)
   app.Get("/forms/section", guih.SectionForm)
+  app.Get("/forms/video", guih.VideoForm)
 
   // Login and Authentication endpoints
   app.Get("/login", guih.LoginPage)

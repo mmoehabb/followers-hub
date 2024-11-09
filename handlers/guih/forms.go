@@ -24,3 +24,9 @@ func SectionForm(c *fiber.Ctx) error {
   forms.SectionForm().Render(context.Background(), c.Response().BodyWriter())
   return c.SendStatus(200)
 }
+
+func VideoForm(c *fiber.Ctx) error {
+  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+  forms.VideoForm().Render(context.Background(), c.Response().BodyWriter())
+  return c.SendStatus(200)
+}
