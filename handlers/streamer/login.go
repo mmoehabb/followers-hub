@@ -1,92 +1,59 @@
 package streamer
 
 import (
-	"context"
 	"crypto/rand"
 	"fmt"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 
-	"goweb/ancillaries"
+	anc "goweb/ancillaries"
 	"goweb/db/streamers"
-	"goweb/ui/components"
 )
 
-// used by local check and recoverf function
-type pvalue struct{
-  Msg string
-  Code int
-}
-
-// an ancillary function to clean Login func handler a little
-func check(err error, statuscode int) {
-  if err != nil {
-    log.Println(err.Error())
-    panic(&pvalue{err.Error(), statuscode})
-  }
-}
-
-// an ancillary function to clean Login func handler a little
-func recoverf(c *fiber.Ctx) error {
-  if r := recover(); r != nil {
-    components.Notification(r.(*pvalue).Msg, "bg-error").
-      Render(context.Background(), c.Response().BodyWriter())
-    return c.SendStatus(r.(*pvalue).Code)
-  }
-  return nil
-}
-
 func Login(c *fiber.Ctx) error {
-  defer recoverf(c)
+  defer anc.Recover(c)
 
   c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
   body := new(LoginBody)
-  check(c.BodyParser(body), fiber.StatusBadRequest)
+  if err := c.BodyParser(body); err != nil {
+    anc.Notify(c, "Ensure that you have supplied valid data.", "bg-error")
+    return c.SendStatus(fiber.StatusBadRequest)
+  }
 
   ok, _ := ValidateLoginBody(body)
   if ok == false {
-    ancillaries.Notify(c, "Ensure the email is valid.", "bg-success")
+    anc.Notify(c, "Ensure the email is valid.", "bg-success")
     return c.SendStatus(fiber.StatusBadRequest)
   }
 
   // Check if the user id already exists;
-  found, err := streamers.Exists(body.Email)
-  check(err, fiber.StatusInternalServerError)
+  found := anc.Must(streamers.Exists(body.Email)).(bool)
 
   // if it does exist update RefreshToken and send a mail with /auth/* link accordingly
   newtoken := generateToken()
   if found {
-    err = streamers.Update(&streamers.DataModel{
+    anc.Must(nil, streamers.Update(&streamers.DataModel{
       Id: body.Email,
       RefreshToken: newtoken,
-    })
-    check(err, fiber.StatusInternalServerError)
-
-    err := sendAuthMail(body.Email, newtoken)
-    check(err, fiber.StatusInternalServerError)
+    }))
+    anc.Must(nil, sendAuthMail(body.Email, newtoken))
 
     okmsg := "Checkout your email inbox; a mail with access link shall be sent to you."
-    ancillaries.Notify(c, okmsg, "bg-success")
-
+    anc.Notify(c, okmsg, "bg-success")
     return c.SendStatus(fiber.StatusOK)
   }
   // otherwise generate an AccessToken, register the user, and send a mail with /auth/* link.
-  err = streamers.Add(&streamers.DataModel{
+  anc.Must(nil, streamers.Add(&streamers.DataModel{
     Id: body.Email, 
     DisplayName: "Ross Geller",
     ImgUrl: "/public/images/user.jpg",
     AccessToken: newtoken,
     RefreshToken: newtoken,
-  })
-  check(err, fiber.StatusInternalServerError)
-
-  err = sendAuthMail(body.Email, newtoken)
-  check(err, fiber.StatusInternalServerError)
+  }))
+  anc.Must(nil, sendAuthMail(body.Email, newtoken))
 
   okmsg := "Checkout your email inbox; a mail with access link shall be sent to you."
-  ancillaries.Notify(c, okmsg, "bg-success")
-
+  anc.Notify(c, okmsg, "bg-success")
   return c.SendStatus(fiber.StatusOK)
 }
 

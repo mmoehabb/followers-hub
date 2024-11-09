@@ -1,38 +1,58 @@
 package channel
 
 import (
-	"goweb/ancillaries"
+	"context"
+	anc "goweb/ancillaries"
 	"goweb/db/channels"
+	"goweb/db/sections"
+	"goweb/ui/collections"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func Create(c *fiber.Ctx) error {
+  defer anc.Recover(c)
+  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
   body := new(ChannelBody)
   if err := c.BodyParser(body); err != nil {
     return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
   }
+
   ok, errs := ValidateBody(body)
   if ok == false {
-    ancillaries.Notify(c, "Ensure all values have been set.", "bg-error")
+    anc.Notify(c, "Ensure all values have been set.", "bg-error")
     return c.Status(fiber.StatusBadRequest).JSON(errs)
   }
-  ok, err := channels.Add(&channels.DataModel{
+
+  ok = anc.Must(channels.Add(&channels.DataModel{
     StreamerId: c.Cookies("streamer_id"),
     Name: body.Name,
     PrimaryColor: body.PrimaryColor,
     SecondaryColor: body.SecondaryColor,
     AccentColor: body.AccentColor,
     TextColor: body.TextColor,
-  })
-  if err != nil {
-    ancillaries.Notify(c, "Something went wrong!", "bg-error")
-    return c.SendStatus(fiber.StatusInternalServerError)
-  }
+  })).(bool)
+
   if ok == false {
-    ancillaries.Notify(c, "Channel already found!", "bg-error")
+    anc.Notify(c, "Channel already found!", "bg-error")
     return c.SendStatus(fiber.StatusConflict)
   }
-  ancillaries.Notify(c, "Channel has been successfully created.", "bg-success")
+  anc.Notify(c, "Channel has been successfully created.", "bg-success")
   return c.SendStatus(fiber.StatusCreated)
+}
+
+func GetSections(c *fiber.Ctx) error {
+  defer anc.Recover(c)
+  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+  channel_id := anc.Must(strconv.Atoi(c.Params("channel_id"))).(int)
+
+  found := anc.Must(channels.Get(channel_id)).(channels.DataModel)
+  if found.Name == "" {
+    return c.SendStatus(fiber.StatusNotFound)
+  }
+
+  list := anc.Must(sections.GetSectionsOf(channel_id)).([]sections.DataModel)
+  collections.Sections(list).Render(context.Background(), c.Response().BodyWriter())
+  return c.SendStatus(fiber.StatusOK)
 }

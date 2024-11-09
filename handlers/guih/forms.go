@@ -19,3 +19,8 @@ func ChannelForm(c *fiber.Ctx) error {
   return c.SendStatus(200)
 }
 
+func SectionForm(c *fiber.Ctx) error {
+  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+  forms.SectionForm().Render(context.Background(), c.Response().BodyWriter())
+  return c.SendStatus(200)
+}
