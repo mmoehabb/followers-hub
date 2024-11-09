@@ -1,0 +1,22 @@
+package wrappers
+
+import (
+  "strconv"
+)
+
+templ Sections(channel_id int, admin bool) {
+  <div>
+
+    if admin {
+      <a class="m-2 px-2 text-md text-center bg-primary color-text cursor-pointer rounded-full" 
+      hx-get="/forms/section" hx-swap="innerHTML" hx-target="#forms-overlay">+</a>
+    }
+
+    <div id="sections-container" class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey"
+    hx-trigger="load" 
+    hx-get={"/hub/" + strconv.Itoa(channel_id) + "/sections"} 
+    hx-swap="innerHTML">
+    </div>
+
+  </div>
+}

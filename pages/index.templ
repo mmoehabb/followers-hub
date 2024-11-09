@@ -58,19 +58,13 @@ templ Index(streamer *streamers.DataModel, admin bool) {
 
         <section class="flex-1 flex flex-col items-center lg:px-8">
           // sections
-          <div class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey">
-            <button class="p-4 color-accent">Clips</button>
-          </div>
+          @wrappers.Sections(-1, admin)
           // videos
-          <div class="flex flex-wrap justify-center w-full h-full p-4 overflow-auto">
-            @components.VideoCard(
-              "Some long title for the embedded video",
-              "https://www.youtube.com/embed/ssa6Y850b7o",
-            )
-            @components.VideoCard(
-              "Some long title for the embedded video",
-              "https://www.youtube.com/embed/hWruEaP4ysI",
-            )
+          <div id="videos-container" class="flex flex-wrap justify-center w-full h-full p-4 overflow-auto">
+            //@components.VideoCard(
+            //  "Some long title for the embedded video",
+            //  "https://www.youtube.com/embed/ssa6Y850b7o",
+            //)
           </div>
         </section>
 

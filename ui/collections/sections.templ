@@ -1,0 +1,18 @@
+package collections
+
+import (
+  "strconv"
+  "goweb/db/sections"
+)
+
+templ Sections(list []sections.DataModel) {
+  <div hidden>dump div</div>
+  for _, section := range list {
+    <button class="p-4 color-accent" 
+    hx-get={"/hub/" + strconv.Itoa(section.Id) + "/videos"}
+    hx-swap="innerHTML"
+    hx-target="#videos-container">
+      {section.Name}
+    </button>
+  }
+}

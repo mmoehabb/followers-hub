@@ -9,7 +9,9 @@ templ Channels(list []channels.DataModel) {
   <div hidden>dump div</div>
   for _, channel := range list {
     <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer" 
-    href={templ.SafeURL("?channel=" + strconv.Itoa(channel.Id))}>
+    hx-get={"/hub/" + strconv.Itoa(channel.Id) + "/sections"}
+    hx-swap="innerHTML"
+    hx-target="#sections-container">
       {channel.Name}
     </a>
   }
