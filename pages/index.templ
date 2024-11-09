@@ -53,19 +53,11 @@ templ Index(streamer *streamers.DataModel, admin bool) {
             @components.TextInput("email", "you@example.com", "email", "", "", templ.Attributes{})
             <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
           </section>
-
         </nav>
 
         <section class="flex-1 flex flex-col items-center lg:px-8">
-          // sections
           @wrappers.Sections(-1, admin)
-          // videos
-          <div id="videos-container" class="flex flex-wrap justify-center w-full h-full p-4 overflow-auto">
-            //@components.VideoCard(
-            //  "Some long title for the embedded video",
-            //  "https://www.youtube.com/embed/ssa6Y850b7o",
-            //)
-          </div>
+          @wrappers.Videos(-1, admin)
         </section>
 
       </main>
