@@ -29,10 +29,13 @@ func main() {
   // Streamer page endpoints
   app.Get("/hub/:streamer_id", guih.IndexPage(false))
   app.Get("/hub/:streamer_id/channels", streamer.GetChannels)
+  app.Get("/hub/:channel_id<int>/sections", channel.GetSections)
+  //app.Get("/hub/:section_id<int/>/videos", section.GetVideos)
 
   // forms HTMX endpoints
   app.Get("/forms/login", guih.LoginForm)
   app.Get("/forms/channel", guih.ChannelForm)
+  app.Get("/forms/section", guih.SectionForm)
 
   // Login and Authentication endpoints
   app.Get("/login", guih.LoginPage)
