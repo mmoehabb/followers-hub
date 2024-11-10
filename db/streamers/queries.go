@@ -2,7 +2,7 @@ package streamers
 
 import (
 	"errors"
-	"fmt"
+	"goweb/ancillaries"
 	"goweb/db"
 )
 
@@ -57,35 +57,12 @@ func Update(data *DataModel) error {
     return errors.New("entity not found.")
   }
 
-  var i int = 1
-  var values []any
-  q := "UPDATE streamers SET "
-  if data.DisplayName != "" {
-    q = fmt.Sprintf("%s%s=$%d ", q, "display_name", i)
-    values = append(values, data.DisplayName)
-    i = i + 1
-  }
-  if data.ImgUrl != "" {
-    q = fmt.Sprintf("%s%s=$%d ", q, "img_url", i)
-    values = append(values, data.ImgUrl)
-    i = i + 1
-  }
-  if data.AccessToken != "" {
-    q = fmt.Sprintf("%s%s=$%d ", q, "access_token", i)
-    values = append(values, data.AccessToken)
-    i = i + 1
-  }
-  if data.RefreshToken != "" {
-    q = fmt.Sprintf("%s%s=$%d ", q, "refresh_token", i)
-    values = append(values, data.RefreshToken)
-    i = i + 1
-  }
-  q = fmt.Sprintf("%sWHERE id='%s'", q, data.Id)
-
+  q, values := ancillaries.GenUpdateQuery("streamers", parseModel(data), "id")
   _, err = db.Query(q, values...)
   if err != nil {
     return err
   }
+
   return nil
 }
 
