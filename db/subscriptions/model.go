@@ -1,7 +1,9 @@
 package subscriptions
 
 import (
-  "github.com/jackc/pgx/v5/pgtype"
+	"strconv"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type DataModel struct{
@@ -18,4 +20,18 @@ func parseRow(row []any) DataModel {
     SubscribedAt: row[2].(pgtype.Timestamp),
     Bending: row[3].(bool),
   }
+}
+
+func parseModel(m *DataModel) map[string]string {
+  var modelmap = make(map[string]string)
+  if m.StreamerId != "" {
+    modelmap["streamer_id"] = m.StreamerId
+  }
+  if m.FollowerEmail != "" {
+    modelmap["follower_email"] = m.FollowerEmail
+  }
+  if m.Bending != false {
+    modelmap["bending"] = strconv.FormatBool(m.Bending)
+  }
+  return modelmap
 }

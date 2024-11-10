@@ -1,5 +1,7 @@
 package channels
 
+import "strconv"
+
 type DataModel struct{
   Id int
   StreamerId string
@@ -22,3 +24,28 @@ func parseRow(row []any) DataModel {
   }
 }
 
+func parseModel(m *DataModel) map[string]string {
+  var modelmap = make(map[string]string)
+  if m.Id != 0 {
+    modelmap["id"] = strconv.Itoa(m.Id)
+  }
+  if m.StreamerId != "" {
+    modelmap["streamer_id"] = m.StreamerId
+  }
+  if m.Name != "" {
+    modelmap["name"] = m.Name
+  }
+  if m.PrimaryColor != "" {
+    modelmap["primary_color"] = m.PrimaryColor
+  }
+  if m.SecondaryColor != "" {
+    modelmap["secondary_color"] = m.SecondaryColor
+  }
+  if m.AccentColor != "" {
+    modelmap["accent_color"] = m.AccentColor
+  }
+  if m.TextColor != "" {
+    modelmap["text_color"] = m.TextColor
+  }
+  return modelmap
+}

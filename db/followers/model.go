@@ -14,3 +14,16 @@ func parseRow(row []any) DataModel {
   }
 }
 
+func parseModel(m *DataModel) map[string]string {
+  var modelmap = make(map[string]string)
+  if m.Email != "" {
+    modelmap["email"] = m.Email
+  }
+  if m.DisplayName != "" {
+    modelmap["display_name"] = m.DisplayName
+  }
+  if m.Token != "" {
+    modelmap["token"] = m.Token
+  }
+  return modelmap
+}
