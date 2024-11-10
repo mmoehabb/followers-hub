@@ -5,20 +5,20 @@ import (
 	"goweb/db"
 )
 
-func Add(d *DataModel) error {
+func Add(d *DataModel) (bool, error) {
   res, err := db.SeqQuery("SELECT * FROM videos WHERE section_id=$1 AND title=$2", d.SectionId, d.Title)
   if len(res) != 0 {
     db.Disconnect()
-    return errors.New("video title already exists.")
+    return false, nil
   }
   _, err = db.Query(
     "INSERT INTO videos VALUES ($1, $2, $3, $4)", 
     d.Id, d.SectionId, d.Title, d.Url,
   )
   if err != nil {
-    return err
+    return false, err
   }
-  return nil
+  return true, nil
 }
 
 func Get(id int) (DataModel, error) {
