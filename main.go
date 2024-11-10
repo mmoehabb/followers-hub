@@ -7,10 +7,12 @@ import (
 	"goweb/middlewares"
 
 	"goweb/handlers/auth"
-	"goweb/handlers/channel"
-	"goweb/handlers/section"
 	"goweb/handlers/guih"
 	"goweb/handlers/streamer"
+
+	"goweb/handlers/channel"
+	"goweb/handlers/section"
+	"goweb/handlers/video"
 )
 
 func main() {
@@ -56,6 +58,8 @@ func main() {
 
   // POST create handlers
   app.Post("/create/channel", channel.Create)
+  app.Post("/create/section", section.Create)
+  app.Post("/create/video", video.Create)
 
   // components endpoints; these are mostly used for pop-up layouts
   app.Get("/component/video", guih.Video)
