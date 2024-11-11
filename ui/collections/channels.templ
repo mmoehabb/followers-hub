@@ -21,7 +21,7 @@ templ Channels(list []channels.DataModel) {
     hx-get={"/hub/" + strconv.Itoa(channel.Id) + "/sections"}
     hx-swap="innerHTML"
     hx-target="#sections-container"
-    onclick={ ApplyTheme(channel) }>
+    >
       {channel.Name}
     </a>
   }

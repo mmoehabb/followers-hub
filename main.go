@@ -30,16 +30,16 @@ func main() {
   })
 
   // Streamer page endpoints
-  app.Get("/hub/:streamer_id", guih.IndexPage(false))
+  app.Get("/hub/:streamer_id", guih.IndexPage)
   app.Get("/hub/:streamer_id/channels", streamer.GetChannels)
   app.Get("/hub/:channel_id<int>/sections", channel.GetSections)
-  app.Get("/hub/:section_id<int/>/videos", section.GetVideos)
+  app.Get("/hub/:section_id<int>/videos", section.GetVideos)
 
   // forms HTMX endpoints
   app.Get("/forms/login", guih.LoginForm)
   app.Get("/forms/channel", guih.ChannelForm)
-  app.Get("/forms/section", guih.SectionForm)
-  app.Get("/forms/video", guih.VideoForm)
+  app.Get("/forms/section/:channel_id<int>", guih.SectionForm)
+  app.Get("/forms/video/:section_id<int>", guih.VideoForm)
 
   // Login and Authentication endpoints
   app.Get("/login", guih.LoginPage)
@@ -54,7 +54,7 @@ func main() {
   // the index page; only works for logged in users
   // it used basically for every thing: adding/editing 
   // contents and more generally maintaining the "Hub"
-  app.Get("/", guih.IndexPage(true))
+  app.Get("/", guih.IndexPage)
 
   // POST create handlers
   app.Post("/create/channel", channel.Create)

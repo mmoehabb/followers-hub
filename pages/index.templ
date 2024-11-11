@@ -3,11 +3,10 @@ package pages
 import (
   "goweb/ui/layouts"
   "goweb/ui/components"
-  "goweb/ui/wrappers"
   "goweb/db/streamers"
 )
 
-templ Index(streamer *streamers.DataModel, admin bool) {
+templ Index(streamer *streamers.DataModel) {
   <!DOCTYPE html>
   <html theme="light">
     <head>
@@ -46,7 +45,14 @@ templ Index(streamer *streamers.DataModel, admin bool) {
               </div>
             </div>
 
-            @wrappers.Channels(streamer.Id, admin)
+            <div 
+              id="channels-container" 
+              class="flex-1 flex flex-col font-jersey"
+              hx-get={"/hub/" + streamer.Id + "/channels"}
+              hx-trigger="load"
+              hx-swap="innerHTML">
+            </div>
+
           </section>
 
           <section class="flex justify-center items-center mt-8">
@@ -56,8 +62,17 @@ templ Index(streamer *streamers.DataModel, admin bool) {
         </nav>
 
         <section class="flex-1 flex flex-col items-center lg:px-8">
-          @wrappers.Sections(-1, admin)
-          @wrappers.Videos(-1, admin)
+
+          <div 
+            id="sections-container"
+            class="w-4/5 border-b-2 text-xl md:text-2xl text-center font-jersey">
+          </div>
+
+          <div 
+            id="videos-container"
+            class="flex flex-wrap justify-center w-full h-full p-4 overflow-auto">
+          </div>
+
         </section>
 
       </main>
