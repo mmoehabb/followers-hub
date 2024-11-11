@@ -1,9 +1,16 @@
 package forms
 
-import "goweb/ui/components"
+import (
+  "strconv"
+  "goweb/ui/components"
+)
 
-templ SectionForm() {
-  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight">
+templ SectionForm(channel_id int) {
+  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight"
+  hx-post="/create/section"
+  hx-swap="innerHTML"
+  hx-target="#notifications-container">
+
     <script>
       blur()
       document.getElementsByTagName("main")[0].onclick = () => {
@@ -15,14 +22,19 @@ templ SectionForm() {
         setTimeout(() => form.remove(), 1250)
       }
     </script>
+
+    <input name="channel_id" type="number" value={strconv.Itoa(channel_id)} hidden />
+
     <div class="my-2">
-      <label class="mb-1 color-primary">Channel Name</label>
+      <label class="mb-1 color-primary">Section Name</label>
       @components.TextInput(
         "Section Name", "Video, Clips, FPS, etc.",
         "text", "", "", 
         templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
       )
     </div>
+
     <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Add/Edit Section</button>
+
   </form>
 }

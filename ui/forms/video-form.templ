@@ -1,8 +1,11 @@
 package forms
 
-import "goweb/ui/components"
+import (
+  "strconv"
+  "goweb/ui/components"
+)
 
-templ VideoForm() {
+templ VideoForm(section_id int) {
   <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight">
 
     <script>
@@ -17,10 +20,12 @@ templ VideoForm() {
       }
     </script>
 
+    <input name="section_id" type="number" value={strconv.Itoa(section_id)} hidden />
+
     <div class="my-2">
       <label class="mb-1 color-primary">Embedded Link</label>
       @components.TextInput(
-        "Video Embed Link", "https://...",
+        "Embedded Url", "https://...",
         "url", "", "", 
         templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
       )
