@@ -1,7 +1,7 @@
 package sections
 
 import (
-	"errors"
+  anc "goweb/ancillaries"
 	"goweb/db"
 )
 
@@ -27,7 +27,7 @@ func Get(id int) (DataModel, error) {
     return DataModel{}, err
   }
   if len(res) == 0 {
-    return DataModel{}, errors.New("data not found.")
+    return DataModel{}, nil
   }
   row := res[0].([]any)
   obj := parseRow(row)
@@ -41,6 +41,25 @@ func GetSectionsOf(channel_id int) ([]DataModel, error) {
     list[i] = parseRow(row.([]any))
   }
   return list, err
+}
+
+func GetSteamerId(section_id int) (string, error) {
+  res, err := db.SeqQuery("SELECT streamer_id FROM sections s JOIN channels c ON s.channel_id = c.id WHERE s.id=$1", section_id)
+  if err != nil {
+    return "", err
+  }
+  if len(res) == 0 {
+    return "", nil
+  }
+  row := res[0].([]any)
+  return row[0].(string), nil
+}
+
+func Update(id int, data *DataModel) error {
+  data.Id = id
+  query, values := anc.GenUpdateQuery("sections", parseModel(data), "id")
+  _, err := db.Query(query, values...)
+  return err
 }
 
 func Remove(id int) error {

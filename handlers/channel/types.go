@@ -7,3 +7,4 @@ type ChannelBody struct {
   AccentColor string `json:"accent-color" xml:"accent-color" form:"accent-color"`
   TextColor string `json:"text-color" xml:"text-color" form:"text-color"`
 }
+

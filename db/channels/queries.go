@@ -1,6 +1,7 @@
 package channels
 
 import (
+	anc "goweb/ancillaries"
 	"goweb/db"
 )
 
@@ -46,6 +47,13 @@ func GetChannelsOf(username string) ([]DataModel, error) {
     list[i] = parseRow(row.([]any))
   }
   return list, err
+}
+
+func Update(id int, data *DataModel) error {
+  data.Id = id
+  query, values := anc.GenUpdateQuery("channels", parseModel(data), "id")
+  _, err := db.Query(query, values...)
+  return err
 }
 
 func Remove(id int) error {
