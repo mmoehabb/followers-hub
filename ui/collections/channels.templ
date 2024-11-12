@@ -17,11 +17,12 @@ script ApplyTheme(channel channels.DataModel) {
 templ Channels(list []channels.DataModel) {
   <div hidden>dump div</div>
   for _, channel := range list {
-    <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer" 
+    <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer select-none" 
+    hx-trigger="once"
     hx-get={"/hub/" + strconv.Itoa(channel.Id) + "/sections"}
     hx-swap="innerHTML"
     hx-target="#sections-container"
-    >
+    ondblclick="showContextMenu(this)">
       {channel.Name}
     </a>
   }

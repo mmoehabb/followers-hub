@@ -1,0 +1,16 @@
+package layouts
+
+templ Overlayers() {
+  <section id="context-menu" class="absolute flex flex-col right-4 bottom-4 px-8 py-1 text-2xl font-jersey bg-secondary shadow rounded animate__animated animate__fadeIn hidden">
+    <button class="my-1" onclick="hideContextMenu()">Edit</button>
+    <button class="my-1" onclick="hideContextMenu()">Delete</button>
+  </section>
+
+  <section id="comments-drawer" class="hidden"></section>
+
+  <section id="forms-overlay" class="fixed flex flex-col right-4 bottom-4"></section>
+
+  <section id="video-overlay" class="fixed flex justify-center items-center w-auto left-0 bottom-0 z-[10]"></section>
+
+  <section id="notifications-container" class="fixed right-4 bottom-8 w-auto h-auto" hx-ext='response-targets'></section>
+}

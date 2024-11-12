@@ -1,5 +1,15 @@
 const html = document.getElementsByTagName('html')[0]
 
+function showContextMenu(elm) {
+  const contextMenu = document.getElementById('context-menu')
+  contextMenu.style.display = "flex"
+}
+
+function hideContextMenu() {
+  const contextMenu = document.getElementById('context-menu')
+  contextMenu.style.display = "none"
+}
+
 function setTheme(pcolor, scolor, acolor, tcolor) {
   html.style.setProperty("--color-primary", pcolor)
   html.style.setProperty("--color-background", pcolor)
@@ -44,7 +54,6 @@ window.onmousemove = (e) => {
     elm.style.backgroundPosition = `${e.pageX}px ${e.pageY}px`
   }
 }
-
 
 // Make elements draggable. credit: https://www.w3schools.com/HOWTO/howto_js_draggable.asp
 function dragElement(elmnt) {
