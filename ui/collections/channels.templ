@@ -5,23 +5,28 @@ import (
   "goweb/db/channels"
 )
 
-script ApplyTheme(channel channels.DataModel) {
+script SelectChannel(i int, channel channels.DataModel) {
   setTheme(
     channel.PrimaryColor,
     channel.SecondaryColor,
     channel.AccentColor,
     channel.TextColor
   )
+  AppState.set(SELECTED_CHANNEL, i)
 }
 
 templ Channels(list []channels.DataModel) {
   <div hidden>dump div</div>
-  for _, channel := range list {
-    <a class="w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer select-none" 
-    hx-trigger="once"
+  for i, channel := range list {
+    <a class="channel-btn w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer select-none" 
+
     hx-get={"/hub/" + strconv.Itoa(channel.Id) + "/sections"}
+    hx-trigger="once"
     hx-swap="innerHTML"
     hx-target="#sections-container"
+  
+    data-index={strconv.Itoa(i)}
+    onclick={SelectChannel(i, channel)}
     ondblclick="showContextMenu(this)">
       {channel.Name}
     </a>
