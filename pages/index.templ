@@ -6,7 +6,14 @@ import (
   "goweb/db/streamers"
 )
 
-templ Index(streamer *streamers.DataModel) {
+func kv(value string, cond bool) string {
+  if cond {
+    return value
+  }
+  return ""
+}
+
+templ Index(streamer *streamers.DataModel, admin bool) {
   <!DOCTYPE html>
   <html theme="light">
 
@@ -49,12 +56,12 @@ templ Index(streamer *streamers.DataModel) {
               </div>
             </div>
 
-            <div 
+            <div
               id="channels-container" 
               class="flex-1 flex flex-col font-jersey"
-              hx-get={"/hub/" + streamer.Id + "/channels"}
+              hx-get={"/" + kv("hub/" + streamer.Id + "/", !admin) + "channels"}
               hx-trigger="load"
-              hx-swap="innerHTML">
+              hx-swap="afterbegin">
             </div>
 
           </section>
@@ -63,7 +70,6 @@ templ Index(streamer *streamers.DataModel) {
             @components.TextInput("email", "you@example.com", "email", "", "", templ.Attributes{})
             <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
           </section>
-
         </nav>
 
         <section class="flex-1 flex flex-col items-center lg:px-8">

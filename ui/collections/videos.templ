@@ -3,11 +3,22 @@ package collections
 import (
   "goweb/db/videos"
   "goweb/ui/components"
+	"strconv"
 )
 
-templ Videos(list []videos.DataModel) {
+templ Videos(list []videos.DataModel, section_id int, admin bool) {
   <div hidden>dump div</div>
+
   for _, video := range list {
     @components.VideoCard(video.Title, video.Url)
+  }
+
+  if admin {
+    <button class="w-full lg:w-72 h-80 lg:h-96 m-4 font-jersey text-4xl border-secondary border-4 rounded-lg shadow"
+    hx-get={"/forms/video/" + strconv.Itoa(section_id)}
+    hx-swap="innerHTML"
+    hx-target="#forms-overlay">
+      +
+    </button>
   }
 }

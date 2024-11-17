@@ -11,19 +11,21 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetSections(c *fiber.Ctx) error {
-  defer anc.Recover(c)
-  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-  channel_id := anc.Must(strconv.Atoi(c.Params("channel_id"))).(int)
+func GetSections(admin bool) func(c *fiber.Ctx) error {
+  return func(c *fiber.Ctx) error {
+    defer anc.Recover(c)
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    channel_id := anc.Must(strconv.Atoi(c.Params("channel_id"))).(int)
 
-  found := anc.Must(channels.Get(channel_id)).(channels.DataModel)
-  if found.Name == "" {
-    return c.SendStatus(fiber.StatusNotFound)
+    found := anc.Must(channels.Get(channel_id)).(channels.DataModel)
+    if found.Name == "" {
+      return c.SendStatus(fiber.StatusNotFound)
+    }
+
+    list := anc.Must(sections.GetSectionsOf(channel_id)).([]sections.DataModel)
+    collections.Sections(list, channel_id, admin).Render(context.Background(), c.Response().BodyWriter())
+    return c.SendStatus(fiber.StatusOK)
   }
-
-  list := anc.Must(sections.GetSectionsOf(channel_id)).([]sections.DataModel)
-  collections.Sections(list).Render(context.Background(), c.Response().BodyWriter())
-  return c.SendStatus(fiber.StatusOK)
 }
 
 func Create(c *fiber.Ctx) error {

@@ -5,14 +5,24 @@ import (
   "goweb/db/sections"
 )
 
-templ Sections(list []sections.DataModel) {
+templ Sections(list []sections.DataModel, channel_id int, admin bool) {
   <div hidden>dump div</div>
+
   for _, section := range list {
     <button class="p-4 color-accent" 
-    hx-get={"/hub/" + strconv.Itoa(section.Id) + "/videos"}
+    hx-get={"/" + kv("hub/", !admin) + strconv.Itoa(section.Id) + "/videos"}
     hx-swap="innerHTML"
     hx-target="#videos-container">
       {section.Name}
+    </button>
+  }
+
+  if admin {
+    <button class="p-4 color-accent" 
+    hx-get={"/forms/section/" + strconv.Itoa(channel_id)}
+    hx-swap="innerHTML"
+    hx-target="#forms-overlay">
+      +
     </button>
   }
 }

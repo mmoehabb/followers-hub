@@ -12,19 +12,21 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetVideos(c *fiber.Ctx) error {
-  defer anc.Recover(c)
-  c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-  section_id := anc.Must(strconv.Atoi(c.Params("section_id"))).(int)
+func GetVideos(admin bool) func(*fiber.Ctx) error {
+  return func(c *fiber.Ctx) error {
+    defer anc.Recover(c)
+    c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+    section_id := anc.Must(strconv.Atoi(c.Params("section_id"))).(int)
 
-  found := anc.Must(sections.Get(section_id)).(sections.DataModel)
-  if found.Name == "" {
-    return c.SendStatus(fiber.StatusNotFound)
+    found := anc.Must(sections.Get(section_id)).(sections.DataModel)
+    if found.Name == "" {
+      return c.SendStatus(fiber.StatusNotFound)
+    }
+
+    list := anc.Must(videos.GetVideosOf(section_id)).([]videos.DataModel)
+    collections.Videos(list, section_id, admin).Render(context.Background(), c.Response().BodyWriter())
+    return c.SendStatus(fiber.StatusOK)
   }
-
-  list := anc.Must(videos.GetVideosOf(section_id)).([]videos.DataModel)
-  collections.Videos(list).Render(context.Background(), c.Response().BodyWriter())
-  return c.SendStatus(fiber.StatusOK)
 }
 
 func Create(c *fiber.Ctx) error {

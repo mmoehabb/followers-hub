@@ -15,13 +15,20 @@ script SelectChannel(i int, channel channels.DataModel) {
   AppState.set(SELECTED_CHANNEL, i)
 }
 
-templ Channels(list []channels.DataModel) {
-  <div hidden>dump div</div>
-  for i, channel := range list {
-    <a class="channel-btn w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer select-none" 
+func kv(value string, cond bool) string {
+  if cond {
+    return value;
+  }
+  return ""
+}
 
-    hx-get={"/hub/" + strconv.Itoa(channel.Id) + "/sections"}
-    hx-trigger="once"
+templ Channels(list []channels.DataModel, admin bool) {
+  <div hidden>dump div</div>
+
+  for i, channel := range list {
+    <a class="channel-btn w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer select-none opacity-65" 
+
+    hx-get={"/" + kv("hub/", !admin) + strconv.Itoa(channel.Id) + "/sections"}
     hx-swap="innerHTML"
     hx-target="#sections-container"
   
@@ -29,6 +36,15 @@ templ Channels(list []channels.DataModel) {
     onclick={SelectChannel(i, channel)}
     ondblclick="showContextMenu(this)">
       {channel.Name}
+    </a>
+  }
+
+  if admin {
+    <a class="w-full py-2 my-1 text-2xl text-center bg-secondary color-text border-text border-2 cursor-pointer select-none" 
+    hx-get={"/forms/channel"}
+    hx-swap="innerHTML"
+    hx-target="#forms-overlay">
+      Add Channel
     </a>
   }
 }
