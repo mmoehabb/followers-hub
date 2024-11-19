@@ -17,3 +17,15 @@ type AccountAuthBody struct{
   Id string `query:"id"`
   RefreshToken string `query:"refresh_token"`
 }
+
+type inputsNames struct{
+  Id string
+  AccessToken string
+  RefreshToken string
+}
+
+var HTML_INPUTS_NAMES = inputsNames{
+  Id: "id",
+  AccessToken: "access_token",
+  RefreshToken: "refresh_token",
+}

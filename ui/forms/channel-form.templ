@@ -1,6 +1,9 @@
 package forms
 
-import "goweb/ui/components"
+import (
+  "goweb/ui/components"
+  "goweb/handlers/channel"
+)
 
 templ ChannelForm() {
   <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight"
@@ -20,23 +23,27 @@ templ ChannelForm() {
         setTimeout(() => form.remove(), 1250)
       }
     </script>
+
     <div class="my-2">
       <label class="mb-1 color-primary">Channel Name</label>
       @components.TextInput(
-        "Channel Name", "Youtube, Facebook, etc.",
+        channel.HTML_INPUTS_NAMES.Name, 
+        "Youtube, Facebook, etc.",
         "text", "", "", 
         templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
       )
     </div>
+
     <div class="flex flex-col my-2">
       <label class="block mb-1 color-primary">Theme</label>
       <div class="flex justify-around">
-        @components.ColorPicker("primary-color", "#2E073F")
-        @components.ColorPicker("secondary-color", "#7A1CAC")
-        @components.ColorPicker("accent-color", "#AD49E1")
-        @components.ColorPicker("text-color", "#EBD3F8")
+        @components.ColorPicker(channel.HTML_INPUTS_NAMES.PrimaryColor, "#2E073F")
+        @components.ColorPicker(channel.HTML_INPUTS_NAMES.SecondaryColor, "#7A1CAC")
+        @components.ColorPicker(channel.HTML_INPUTS_NAMES.AccentColor, "#AD49E1")
+        @components.ColorPicker(channel.HTML_INPUTS_NAMES.TextColor, "#EBD3F8")
       </div>
     </div>
+
     <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Add/Edit Channel</button>
   </form>
 }

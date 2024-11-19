@@ -8,3 +8,10 @@ type ChannelBody struct {
   TextColor string `json:"text-color" xml:"text-color" form:"text-color"`
 }
 
+var HTML_INPUTS_NAMES = ChannelBody{
+  Name: "Channel Name",
+  PrimaryColor: "primary-color",
+  SecondaryColor: "secondary-color",
+  AccentColor: "accent-color",
+  TextColor: "text-color",
+}

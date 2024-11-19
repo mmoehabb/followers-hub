@@ -3,6 +3,7 @@ package forms
 import (
   "strconv"
   "goweb/ui/components"
+	"goweb/handlers/section"
 )
 
 templ SectionForm(channel_id int) {
@@ -23,12 +24,13 @@ templ SectionForm(channel_id int) {
       }
     </script>
 
-    <input name="channel_id" type="number" value={strconv.Itoa(channel_id)} hidden />
+    <input name={section.HTML_INPUTS_NAMES.ChannelId} type="number" value={strconv.Itoa(channel_id)} hidden />
 
     <div class="my-2">
       <label class="mb-1 color-primary">Section Name</label>
       @components.TextInput(
-        "Section Name", "Video, Clips, FPS, etc.",
+        section.HTML_INPUTS_NAMES.Name, 
+        "Video, Clips, FPS, etc.",
         "text", "", "", 
         templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
       )

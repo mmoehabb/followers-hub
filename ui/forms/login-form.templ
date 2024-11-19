@@ -1,6 +1,7 @@
 package forms
 
 import "goweb/ui/components"
+import "goweb/handlers/streamer"
 
 templ LoginForm(errs map[string]string) {
   <div class="flex flex-wrap justify-center items-center text-2xl" hx-ext='response-targets'>
@@ -13,7 +14,7 @@ templ LoginForm(errs map[string]string) {
       <div class="my-2 text-xl">
         <label class="mb-1 color-primary">Email</label>
         @components.TextInput(
-          "email", "example@mail.com", "email", "", errs["email"],
+          streamer.HTML_INPUTS_NAMES.Email, "example@mail.com", "email", "", errs["email"],
           templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
         )
       </div>
