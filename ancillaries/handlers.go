@@ -11,5 +11,5 @@ import (
 // it shall be used in handler function wherever a notification should be
 // rendered (htmx) to the user.
 func Notify(c *fiber.Ctx, msg, color string) {
-  components.Notification(msg, color).Render(context.Background(), c.Response().BodyWriter())
+	components.Notification(msg, color).Render(context.Background(), c.Response().BodyWriter())
 }
