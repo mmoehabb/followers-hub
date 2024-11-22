@@ -10,7 +10,7 @@ templ Videos(list []videos.DataModel, section_id int, admin bool) {
   <div hidden>dump div</div>
 
   for _, video := range list {
-    @components.VideoCard(video.Title, video.Url)
+    @components.VideoCard(video.Id, video.Title, video.Url, admin)
   }
 
   if admin {

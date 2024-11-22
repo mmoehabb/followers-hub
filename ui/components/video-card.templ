@@ -1,8 +1,19 @@
 package components
 
-templ VideoCard(title, url string) {
+import "strconv"
+
+script SelectVideo(id int) {
+  AppState.set(SELECTED_VIDEO, id)
+}
+
+templ VideoCard(id int, title, url string, admin bool) {
   <div class="flex flex-col justify-center w-full lg:w-72 h-80 lg:h-96 m-4 font-jersey 
-  bg-secondary rounded-lg shadow overflow-hidden">
+  bg-secondary rounded-lg shadow overflow-hidden"
+  if admin {
+    data-id={strconv.Itoa(id)}
+    onclick={SelectVideo(id)}
+    oncontextmenu="event.preventDefault(); showContextMenu(TYPE_VIDEO)"
+  }>
 
     <iframe src={url} class="flex-1"></iframe>
 
