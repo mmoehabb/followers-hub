@@ -1,8 +1,12 @@
 const html = document.getElementsByTagName('html')[0]
 
-function showContextMenu(elm) {
+function showContextMenu(elm_type) {
   const contextMenu = document.getElementById('context-menu')
   contextMenu.style.display = "flex"
+  html.onclick = () => {
+    contextMenu.style.display = "none"
+  }
+  AppState.set(SELECTED_ENTITY_TYPE, elm_type)
 }
 
 function hideContextMenu() {

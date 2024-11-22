@@ -5,14 +5,14 @@ import (
   "goweb/db/channels"
 )
 
-script SelectChannel(i int, channel channels.DataModel) {
+script SelectChannel(channel channels.DataModel) {
   setTheme(
     channel.PrimaryColor,
     channel.SecondaryColor,
     channel.AccentColor,
     channel.TextColor
   )
-  AppState.set(SELECTED_CHANNEL, i)
+  AppState.set(SELECTED_CHANNEL, channel.Id)
 }
 
 func kv(value string, cond bool) string {
@@ -25,16 +25,16 @@ func kv(value string, cond bool) string {
 templ Channels(list []channels.DataModel, admin bool) {
   <div hidden>dump div</div>
 
-  for i, channel := range list {
+  for _, channel := range list {
     <a class="channel-btn w-full py-2 my-1 text-2xl text-center bg-text color-secondary cursor-pointer select-none opacity-65" 
 
     hx-get={"/" + kv("hub/", !admin) + strconv.Itoa(channel.Id) + "/sections"}
     hx-swap="innerHTML"
     hx-target="#sections-container"
   
-    data-index={strconv.Itoa(i)}
-    onclick={SelectChannel(i, channel)}
-    ondblclick="showContextMenu(this)">
+    data-id={strconv.Itoa(channel.Id)}
+    onclick={SelectChannel(channel)}
+    oncontextmenu="event.preventDefault(); showContextMenu(TYPE_CHANNEL)">
       {channel.Name}
     </a>
   }

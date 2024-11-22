@@ -5,14 +5,22 @@ import (
   "goweb/db/sections"
 )
 
+script SelectSection(id int) {
+  AppState.set(SELECTED_SECTION, id)
+}
+
 templ Sections(list []sections.DataModel, channel_id int, admin bool) {
   <div hidden>dump div</div>
 
   for _, section := range list {
-    <button class="p-4 color-accent" 
+    <button class="section-btn p-4 color-accent" 
     hx-get={"/" + kv("hub/", !admin) + strconv.Itoa(section.Id) + "/videos"}
     hx-swap="innerHTML"
-    hx-target="#videos-container">
+    hx-target="#videos-container"
+
+    data-id={strconv.Itoa(section.Id)}
+    onclick={SelectSection(section.Id)}
+    oncontextmenu="event.preventDefault(); showContextMenu(TYPE_SECTION)">
       {section.Name}
     </button>
   }
