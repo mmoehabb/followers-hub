@@ -32,9 +32,11 @@ templ Channels(list []channels.DataModel, admin bool) {
     hx-swap="innerHTML"
     hx-target="#sections-container"
   
-    data-id={strconv.Itoa(channel.Id)}
-    onclick={SelectChannel(channel)}
-    oncontextmenu="event.preventDefault(); showContextMenu(TYPE_CHANNEL)">
+    if admin {
+      data-id={strconv.Itoa(channel.Id)}
+      onclick={SelectChannel(channel)}
+      oncontextmenu="event.preventDefault(); showContextMenu(TYPE_CHANNEL)"
+    }>
       {channel.Name}
     </a>
   }

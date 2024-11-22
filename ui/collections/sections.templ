@@ -18,9 +18,11 @@ templ Sections(list []sections.DataModel, channel_id int, admin bool) {
     hx-swap="innerHTML"
     hx-target="#videos-container"
 
-    data-id={strconv.Itoa(section.Id)}
-    onclick={SelectSection(section.Id)}
-    oncontextmenu="event.preventDefault(); showContextMenu(TYPE_SECTION)">
+    if admin {
+      data-id={strconv.Itoa(section.Id)}
+      onclick={SelectSection(section.Id)}
+      oncontextmenu="event.preventDefault(); showContextMenu(TYPE_SECTION)"
+    }>
       {section.Name}
     </button>
   }
