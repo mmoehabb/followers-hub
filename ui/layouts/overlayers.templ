@@ -1,9 +1,11 @@
 package layouts
 
 templ Overlayers() {
-  <section id="context-menu" class="absolute flex flex-col right-4 bottom-4 px-8 py-1 text-2xl font-jersey bg-secondary shadow rounded animate__animated animate__fadeIn hidden">
-    <button class="my-1" onclick="hideContextMenu()">Edit</button>
-    <button class="my-1" onclick="hideContextMenu()">Delete</button>
+  <section id="context-menu" class="fixed flex flex-col right-4 bottom-4 p-2 text-2xl 
+  font-jersey bg-text color-accent shadow rounded animate__animated animate__fadeIn hidden">
+    <label id="context-menu-label" class="bg-primary color-text px-2"></label>
+    <button class="hover-bg-accent hover-color-text text-left ml-4 hover:pl-4" onclick="hideContextMenu()">Edit</button>
+    <button class="hover-bg-accent hover-color-text text-left ml-4 hover:pl-4" onclick="hideContextMenu()">Delete</button>
   </section>
 
   <section id="comments-drawer" class="hidden"></section>
