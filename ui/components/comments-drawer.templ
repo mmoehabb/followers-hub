@@ -18,6 +18,11 @@ templ CommentsDrawer() {
         <p class="text-justify color-secondary">Just another not long message!</p>
       </div>
     </div>
-    @TextInput("message", "Write your message...", "text", "", "", templ.Attributes{ "style": "border-radius: 0;" })
+    @TextInput(TextInputProps{
+      Name: "message",
+      Placeholder: "Write your message...",
+      Type: "text",
+      Attrs: templ.Attributes{ "style": "border-radius: 0;" },
+    })
   </section>
 }
