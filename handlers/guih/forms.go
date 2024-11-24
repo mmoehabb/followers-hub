@@ -2,6 +2,7 @@ package guih
 
 import (
 	"context"
+	"goweb/db/streamers"
 	"goweb/ui/forms"
 
 	"github.com/gofiber/fiber/v2"
@@ -36,5 +37,16 @@ func VideoForm(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 	forms.VideoForm(section_id).Render(context.Background(), c.Response().BodyWriter())
+	return c.SendStatus(200)
+}
+
+func InfoForm(c *fiber.Ctx) error {
+	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+  streamer_id := c.Cookies("streamer_id")
+  streamer, err := streamers.Get(streamer_id)
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+	forms.InfoForm(streamer.DisplayName, streamer.ImgUrl).Render(context.Background(), c.Response().BodyWriter())
 	return c.SendStatus(200)
 }

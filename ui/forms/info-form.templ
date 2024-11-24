@@ -1,0 +1,49 @@
+package forms
+
+import (
+  "goweb/ui/components"
+	"goweb/handlers/streamer"
+)
+
+templ InfoForm(display_name, img_url string) {
+  <form class="flex flex-col py-4 px-8 w-full bg-text border-2 border-secondary rounded-lg shadow animate__animated animate__slideInRight"
+  hx-patch="/update/info"
+  hx-swap="innerHTML"
+  hx-target="#notifications-container">
+
+    <script>
+      blur()
+      document.getElementsByTagName("main")[0].onclick = () => {
+        let section = document.getElementById("forms-overlay")
+        let form = section.firstChild
+        form.classList.add("animate__slideOutRight")
+        form.style.opacity = "0"
+        unblur()
+        setTimeout(() => form.remove(), 1250)
+      }
+    </script>
+
+    <div class="my-2">
+      <label class="mb-1 color-primary">DisplayName</label>
+      @components.TextInput(components.TextInputProps{
+        Name: streamer.HTML_INPUTS_NAMES.DisplayName,
+        Value: display_name,
+        Type: "text",
+        Attrs: templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      })
+    </div>
+
+    <div class="my-2">
+      <label class="mb-1 color-primary">Image</label>
+      @components.TextInput(components.TextInputProps{
+        Name: streamer.HTML_INPUTS_NAMES.ImgUrl,
+        Value: img_url,
+        Type: "url",
+        Attrs: templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      })
+    </div>
+
+    <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Edit Info</button>
+
+  </form>
+}
