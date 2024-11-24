@@ -43,6 +43,13 @@ function closeNotification(target) {
   setTimeout(() => target.remove(), 1000);
 }
 
+function toggleTruncateClass(elm) {
+  if (elm.classList.contains("truncate"))
+    elm.classList.remove("truncate")
+  else
+    elm.classList.add("truncate")
+}
+
 bgpattern_elements = []
 
 window.onload = () => {

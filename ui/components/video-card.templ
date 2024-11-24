@@ -19,9 +19,12 @@ templ VideoCard(id int, title, url string, admin bool) {
 
     <div class="p-4">
 
-      <h1 class="text-xl lg:text-3xl truncate">{title}</h1>
-      <div class="flex mt-4">
+      <h1 class="text-xl lg:text-3xl truncate select-none" 
+      ondblclick="toggleTruncateClass(this)">
+        {title}
+      </h1>
 
+      <div class="flex mt-4">
         <button class="flex justify-center items-center text-xl mr-4 px-2 py-1 
         bg-accent hover-bg-text color-text hover-color-accent rounded-lg"
         hx-get={"/component/video?url=" + url} 
@@ -42,7 +45,6 @@ templ VideoCard(id int, title, url string, admin bool) {
         hx-target="#comments-drawer">
           <i class="mr-2">@SVG("./public/icons/comment.svg")</i> 10
         </button>
-
       </div>
 
     </div>

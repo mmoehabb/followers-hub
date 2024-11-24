@@ -43,19 +43,15 @@ templ Index(streamer *streamers.DataModel, admin bool) {
 
       <main class="flex-1 flex flex-wrap h-max-screen lg:p-12 lg:px-24 bg-background color-text">
         <nav class="flex flex-col w-full lg:w-60 h-auto lg:h-full m-12 lg:m-0">
+
           @components.Avatar(streamer.ImgUrl, admin)
 
-          <section class="flex flex-col pt-6 w-full h-auto lg:h-full bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
-
-            <div class="flex flex-col items-end color-text mb-12">
+          <section class="flex flex-col w-full h-auto lg:h-full pb-8 bg-pattern-v2 rounded-[45px] shadow overflow-hidden">
+            <div class="flex flex-col py-12 items-end color-text">
               <div class="flex flex-col w-1/2">
-                <label class="text-2xl mb-2 font-jersey">{streamer.DisplayName}</label>
-                <a href="/" class="color-text">
-                  @components.SVG("./public/icons/twitch.svg")
-                </a>
+                <label class="text-3xl mb-2 font-jersey">{streamer.DisplayName}</label>
               </div>
             </div>
-
             <div
               id="channels-container" 
               class="flex-1 flex flex-col font-jersey"
@@ -63,7 +59,6 @@ templ Index(streamer *streamers.DataModel, admin bool) {
               hx-trigger="load"
               hx-swap="afterbegin">
             </div>
-
           </section>
 
           <section class="flex justify-center items-center mt-8">
@@ -74,6 +69,7 @@ templ Index(streamer *streamers.DataModel, admin bool) {
             })
             <button class="p-2 mx-2 bg-secondary hover-bg-accent rounded">Subscribe</button>
           </section>
+
         </nav>
 
         <section class="flex-1 flex flex-col items-center lg:px-8">
