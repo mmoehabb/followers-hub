@@ -52,7 +52,7 @@ func main() {
 	app.Use(middlewares.Auth)
 
 	// the index page; only works for logged in users
-	// it used basically for every thing: adding/editing
+	// it's used basically for every thing: adding/editing
 	// contents and more generally maintaining the "Hub"
 	app.Get("/", guih.IndexPage(true))
 	app.Get("/channels", streamer.GetChannels(true))
@@ -64,6 +64,11 @@ func main() {
 	app.Post("/create/section", section.Create)
 	app.Post("/create/video", video.Create)
 
+  // PATCH update handlers
+  app.Patch("/update/info", streamer.Update)
+
+  // HTMX elements that require auth middleware
+	app.Get("/forms/info", guih.InfoForm)
 	// components endpoints; these are mostly used for pop-up layouts
 	app.Get("/component/video", guih.Video)
 	app.Get("/component/comments", guih.Comments)
