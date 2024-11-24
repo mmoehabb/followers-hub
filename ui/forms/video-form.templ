@@ -24,20 +24,22 @@ templ VideoForm(section_id int) {
 
     <div class="my-2">
       <label class="mb-1 color-primary">Embedded Link</label>
-      @components.TextInput(
-        "Embedded Url", "https://...",
-        "url", "", "", 
-        templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-      )
+      @components.TextInput(components.TextInputProps{
+        Name: "Embedded Url",
+        Placeholder: "https://...",
+        Type: "url",
+        Attrs: templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      })
     </div>
 
     <div class="my-2">
       <label class="mb-1 color-primary">Title</label>
-      @components.TextInput(
-        "Video Title", "The Walking Dead | Episode ...",
-        "text", "", "", 
-        templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-      )
+      @components.TextInput(components.TextInputProps{
+        Name: "Video Title",
+        Placeholder: "The Walking Dead | Episode ...",
+        Type: "text",
+        Attrs: templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      })
     </div>
 
     <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Add Video</button>

@@ -28,12 +28,12 @@ templ SectionForm(channel_id int) {
 
     <div class="my-2">
       <label class="mb-1 color-primary">Section Name</label>
-      @components.TextInput(
-        section.HTML_INPUTS_NAMES.Name, 
-        "Video, Clips, FPS, etc.",
-        "text", "", "", 
-        templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-      )
+      @components.TextInput(components.TextInputProps{
+        Name: section.HTML_INPUTS_NAMES.Name, 
+        Placeholder: "Video, Clips, FPS, etc.",
+        Type: "text",
+        Attrs: templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+      })
     </div>
 
     <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Add/Edit Section</button>

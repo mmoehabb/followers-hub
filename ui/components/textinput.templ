@@ -1,19 +1,30 @@
 package components
 
-templ TextInput(name string, placeholder string, itype string, desc string, err string, attrs templ.Attributes) {
+type TextInputProps = struct{
+  Name string
+  Value string
+  Placeholder string
+  Type string
+  Desc string
+  Err string
+  Attrs templ.Attributes
+};
+
+templ TextInput(props TextInputProps) {
   <div>
     <input
-      type={ itype }
-      name={ name }
-      placeholder={ placeholder }
+      type={ props.Type }
+      name={ props.Name }
+      value={ props.Value }
+      placeholder={ props.Placeholder }
       class="w-full py-1.5 px-2 color-secondary bg-text rounded-md outline-none"
-      { attrs... }
+      { props.Attrs... }
     />
-    if desc != "" { 
-      <label class="p-1 block text-md">{ desc }</label> 
+    if props.Desc != "" { 
+      <label class="p-1 block text-md">{ props.Desc }</label> 
     }
-    if err != "" {
-      <label class="p-1 block color-error text-md">{ err }</label>
+    if props.Err != "" {
+      <label class="p-1 block color-error text-md">{ props.Err }</label>
     }
   </div>
 }

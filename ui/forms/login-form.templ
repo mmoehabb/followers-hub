@@ -13,10 +13,13 @@ templ LoginForm(errs map[string]string) {
     hx-target="#notifications-container">
       <div class="my-2 text-xl">
         <label class="mb-1 color-primary">Email</label>
-        @components.TextInput(
-          streamer.HTML_INPUTS_NAMES.Email, "example@mail.com", "email", "", errs["email"],
-          templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
-        )
+        @components.TextInput(components.TextInputProps{
+          Name: streamer.HTML_INPUTS_NAMES.Email, 
+          Placeholder: "example@mail.com", 
+          Type: "email", 
+          Err: errs["email"],
+          Attrs: templ.Attributes{ "style": "border: solid 1px var(--color-secondary)" },
+        })
       </div>
       <button type="submit" class="my-2 py-1 bg-primary color-text rounded">Login/Register</button>
     </form>
