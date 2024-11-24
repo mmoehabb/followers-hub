@@ -1,0 +1,18 @@
+package components
+
+templ Avatar(img_url string, admin bool) {
+  <div class="absolute w-36 h-36 translate-x-[-30%] translate-y-[-15%] rounded-full shadow overflow-hidden">
+    if admin {
+      <div class="absolute flex items-center justify-center w-full h-full bg-black opacity-0 hover:opacity-70 cursor-pointer"
+      hx-get="/forms/info"
+      hx-swap="innerHTML"
+      hx-target="#forms-overlay">
+        <div class="w-[25%]">@SVG("./public/icons/settings.svg")</div>
+      </div>
+    }
+    <img 
+      src={img_url} 
+      class="w-full h-full"
+    />
+  </div>
+}
